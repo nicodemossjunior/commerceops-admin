@@ -1,0 +1,12 @@
+package com.commerceops.admin.common.error;
+
+public enum ApiErrorCode {
+    VALIDATION_ERROR,
+    RESOURCE_NOT_FOUND,
+    DUPLICATE_RESOURCE,
+    AUTHENTICATION_FAILED,
+    ACCESS_DENIED,
+    BUSINESS_RULE_VIOLATION,
+    INVALID_REQUEST,
+    INTERNAL_SERVER_ERROR
+}

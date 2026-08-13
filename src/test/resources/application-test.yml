@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:commerceops_admin_test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  flyway:
+    enabled: false
+
+commerceops:
+  security:
+    jwt:
+      secret: test-secret-key
