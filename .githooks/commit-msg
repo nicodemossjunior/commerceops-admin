@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+message_file="$1"
+first_line="$(sed -n '1p' "$message_file")"
+
+if ! printf '%s' "$first_line" | grep -Eq '^(feat|fix|docs|test|refactor|chore|ci|build|perf)(\([a-z0-9-]+\))?: .+'; then
+  echo "Commit message must use Conventional Commits, for example: feat: implement authentication" >&2
+  exit 1
+fi
+
+if printf '%s' "$first_line" | grep -Eq '[ÁÉÍÓÚÂÊÎÔÛÃÕÀÇáéíóúâêîôûãõàç]'; then
+  echo "Commit message must be written in English." >&2
+  exit 1
+fi

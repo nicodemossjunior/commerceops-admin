@@ -191,6 +191,8 @@ spec.md
 tasks.md
 ```
 
+New specifications should start from `TEMPLATE.md`.
+
 Each `spec.md` should define:
 
 - Objective.
@@ -202,8 +204,13 @@ Each `spec.md` should define:
 - Validation.
 - Authorization.
 - Expected errors.
+- Migration plan.
+- Cross-spec impact.
+- Implementation notes for agents.
+- Non-negotiable constraints.
 - Acceptance criteria.
 - Expected tests.
+- Done means.
 - Dependencies.
 
 Each `tasks.md` should define implementation tasks grouped by area:

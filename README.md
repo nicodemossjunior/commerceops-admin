@@ -6,7 +6,7 @@ CommerceOps Admin is a modular Spring Boot backend for e-commerce administration
 
 The current implementation covers the project foundation and local environment:
 
-- Maven project using Java 21.
+- Maven project using Java 21 and Maven Wrapper.
 - Spring Boot application under the `com.commerceops.admin` base package.
 - Modular package structure for future business capabilities.
 - Shared API error response format.
@@ -99,7 +99,7 @@ docker compose up -d postgres
 Run the backend with the local profile:
 
 ```bash
-mvn spring-boot:run -Dspring-boot.run.profiles=local
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
 The local profile connects to PostgreSQL through:
@@ -134,7 +134,7 @@ V003__create_products_table.sql
 Run the test suite with:
 
 ```bash
-mvn test
+./mvnw test
 ```
 
 The foundation currently includes:
@@ -142,6 +142,28 @@ The foundation currently includes:
 - Application context load test.
 - API error response serialization test.
 - Flyway migration validation test.
+
+## AI-Assisted Development Workflow
+
+Repository-local agent instructions live in `AGENTS.md`. Agents and contributors should use the Maven Wrapper and the repository scripts instead of ad hoc commands:
+
+```bash
+./scripts/spec-status.sh
+./scripts/check-specs.sh
+./scripts/validate.sh
+```
+
+`./scripts/validate.sh` runs the spec structure check and the Maven test suite.
+
+Optional Git hooks are versioned under `.githooks/`. Enable them with:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The hooks validate spec structure before commits, enforce English Conventional Commit messages, and run the full validation script before pushes.
+
+New specifications should start from `specs/TEMPLATE.md`.
 
 ## Specification Flow
 
