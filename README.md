@@ -4,7 +4,7 @@ CommerceOps Admin is a modular Spring Boot backend for e-commerce administration
 
 ## Current Scope
 
-The current implementation covers the project foundation only:
+The current implementation covers the project foundation and local environment:
 
 - Maven project using Java 21.
 - Spring Boot application under the `com.commerceops.admin` base package.
@@ -13,6 +13,8 @@ The current implementation covers the project foundation only:
 - Shared pagination, validation, security, and persistence conventions.
 - Local and test profile configuration.
 - Core dependencies for Web, Validation, Security, JPA, PostgreSQL, Flyway, Actuator, OpenAPI, and Testcontainers.
+- Docker Compose setup for local PostgreSQL.
+- Flyway bootstrap migration and validation coverage.
 
 No domain CRUD feature is implemented in this foundation step.
 
@@ -84,6 +86,49 @@ Important environment variables:
 - `JWT_SECRET`
 - `JWT_ACCESS_TOKEN_TTL_SECONDS`
 
+Copy `.env.example` to `.env` when you want to override local defaults.
+
+## Local Development
+
+Start PostgreSQL:
+
+```bash
+docker compose up -d postgres
+```
+
+Run the backend with the local profile:
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=local
+```
+
+The local profile connects to PostgreSQL through:
+
+```text
+jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:commerceops_admin}
+```
+
+Flyway runs automatically on startup using migrations from:
+
+```text
+src/main/resources/db/migration
+```
+
+Reset the local database:
+
+```bash
+docker compose down -v
+docker compose up -d postgres
+```
+
+Flyway migrations must use a three-digit sequence number, lowercase words separated by underscores, and a clear change description:
+
+```text
+V001__bootstrap_database.sql
+V002__create_categories_table.sql
+V003__create_products_table.sql
+```
+
 ## Tests
 
 Run the test suite with:
@@ -96,6 +141,7 @@ The foundation currently includes:
 
 - Application context load test.
 - API error response serialization test.
+- Flyway migration validation test.
 
 ## Specification Flow
 

@@ -8,8 +8,8 @@ The project must be developed in English across code, API contracts, validation 
 
 | ID | Specification | Status | Purpose |
 | --- | --- | --- | --- |
-| 000 | [Project Foundation](000-project-foundation/spec.md) | planned | Spring Boot project setup, package structure, shared backend standards, and core dependencies. |
-| 001 | [Local Environment](001-local-environment/spec.md) | planned | Local development setup with PostgreSQL, Docker Compose, profiles, and Flyway bootstrap. |
+| 000 | [Project Foundation](000-project-foundation/spec.md) | completed | Spring Boot project setup, package structure, shared backend standards, and core dependencies. |
+| 001 | [Local Environment](001-local-environment/spec.md) | completed | Local development setup with PostgreSQL, Docker Compose, profiles, and Flyway bootstrap. |
 | 002 | [Authentication](002-auth/spec.md) | planned | JWT authentication, admin users, roles, password hashing, and protected endpoints. |
 | 003 | [Catalog](003-catalog/spec.md) | planned | Categories, products, SKU, pricing, inventory basics, filtering, pagination, and soft delete. |
 | 004 | [Customers](004-customers/spec.md) | planned | Customer records, contact data, status, internal notes, and purchase history access. |
@@ -213,4 +213,3 @@ Each `tasks.md` should define implementation tasks grouped by area:
 - Tests.
 - Documentation.
 - Validation.
-

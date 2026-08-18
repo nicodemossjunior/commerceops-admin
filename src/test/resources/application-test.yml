@@ -6,10 +6,12 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
+    generate-ddl: false
     open-in-view: false
   flyway:
-    enabled: false
+    enabled: true
+    locations: classpath:db/migration
 
 commerceops:
   security:

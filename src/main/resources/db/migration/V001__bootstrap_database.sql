@@ -1,0 +1,2 @@
+-- Bootstrap migration for Flyway history.
+-- Domain tables are introduced by their owning feature specifications.
