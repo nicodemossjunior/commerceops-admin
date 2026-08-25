@@ -1,5 +1,6 @@
 package com.commerceops.admin.common.error;
 
+import com.commerceops.admin.auth.service.AuthenticationFailedException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -62,6 +63,14 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return error(HttpStatus.UNPROCESSABLE_ENTITY, ApiErrorCode.BUSINESS_RULE_VIOLATION, exception.getMessage(), request);
+    }
+
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<ApiErrorResponse> handleAuthenticationFailed(
+            AuthenticationFailedException exception,
+            HttpServletRequest request
+    ) {
+        return error(HttpStatus.UNAUTHORIZED, ApiErrorCode.AUTHENTICATION_FAILED, exception.getMessage(), request);
     }
 
     @ExceptionHandler(AccessDeniedException.class)

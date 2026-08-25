@@ -4,7 +4,7 @@ CommerceOps Admin is a modular Spring Boot backend for e-commerce administration
 
 ## Current Scope
 
-The current implementation covers the project foundation and local environment:
+The current implementation covers the project foundation, local environment, and authentication:
 
 - Maven project using Java 21 and Maven Wrapper.
 - Spring Boot application under the `com.commerceops.admin` base package.
@@ -15,8 +15,10 @@ The current implementation covers the project foundation and local environment:
 - Core dependencies for Web, Validation, Security, JPA, PostgreSQL, Flyway, Actuator, OpenAPI, and Testcontainers.
 - Docker Compose setup for local PostgreSQL.
 - Flyway bootstrap migration and validation coverage.
+- JWT login and authenticated user profile endpoints.
+- Administrative users, roles, BCrypt password hashes, and role-based authorization support.
 
-No domain CRUD feature is implemented in this foundation step.
+No business domain CRUD feature is implemented yet.
 
 ## Technology Stack
 
@@ -39,6 +41,7 @@ No domain CRUD feature is implemented in this foundation step.
 src/main/java/com/commerceops/admin
 ├── CommerceOpsAdminApplication.java
 ├── audit
+├── auth
 ├── catalog
 ├── common
 │   ├── error
@@ -125,8 +128,9 @@ Flyway migrations must use a three-digit sequence number, lowercase words separa
 
 ```text
 V001__bootstrap_database.sql
-V002__create_categories_table.sql
-V003__create_products_table.sql
+V002__create_admin_users_and_roles.sql
+V003__create_categories_table.sql
+V004__create_products_table.sql
 ```
 
 ## Tests
@@ -137,11 +141,12 @@ Run the test suite with:
 ./mvnw test
 ```
 
-The foundation currently includes:
+The test suite currently includes:
 
 - Application context load test.
 - API error response serialization test.
 - Flyway migration validation test.
+- Authentication and authorization tests for login, JWT-protected endpoints, disabled or deleted users, invalid tokens, and insufficient roles.
 
 ## AI-Assisted Development Workflow
 
