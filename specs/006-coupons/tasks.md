@@ -3,15 +3,15 @@
 ## Backend
 
 - [x] Create `Coupon` entity.
-- [ ] Create coupon request and response DTOs.
+- [x] Create coupon request and response DTOs.
 - [x] Create coupon repository.
-- [ ] Create coupon service.
-- [ ] Create coupon controller.
-- [ ] Add coupon listing with filters and pagination.
-- [ ] Add coupon activation endpoint.
-- [ ] Add coupon deactivation endpoint.
-- [ ] Add coupon soft delete.
-- [ ] Normalize coupon codes to uppercase.
+- [x] Create coupon service.
+- [x] Create coupon controller.
+- [x] Add coupon listing with filters and pagination.
+- [x] Add coupon activation endpoint.
+- [x] Add coupon deactivation endpoint.
+- [x] Add coupon soft delete.
+- [x] Normalize coupon codes to uppercase.
 
 ## Database And Flyway
 
@@ -22,14 +22,14 @@
 
 ## Tests
 
-- [ ] Test coupon creation.
-- [ ] Test coupon update.
-- [ ] Test coupon soft delete.
-- [ ] Test duplicate code rejection.
-- [ ] Test fixed amount discount validation.
-- [ ] Test percentage discount validation.
-- [ ] Test date range validation.
-- [ ] Test activation and deactivation.
+- [x] Test coupon creation.
+- [x] Test coupon update.
+- [x] Test coupon soft delete.
+- [x] Test duplicate code rejection.
+- [x] Test fixed amount discount validation.
+- [x] Test percentage discount validation.
+- [x] Test date range validation.
+- [x] Test activation and deactivation.
 - [ ] Test role-based access.
 
 ## Documentation
