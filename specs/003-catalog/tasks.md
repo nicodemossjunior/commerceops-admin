@@ -48,15 +48,15 @@ The implementation is divided into waves so that every intermediate state is rev
 
 **Planned commit:** `feat(catalog): implement product management`
 
-- [ ] Create product request and response DTOs.
-- [ ] Create product service.
-- [ ] Create product controller.
-- [ ] Add product listing with pagination.
-- [ ] Add validation for unique SKU.
-- [ ] Add validation for price and stock quantity.
-- [ ] Test product creation.
-- [ ] Test product update.
-- [ ] Test duplicate SKU rejection.
+- [x] Create product request and response DTOs.
+- [x] Create product service.
+- [x] Create product controller.
+- [x] Add product listing with pagination.
+- [x] Add validation for unique SKU.
+- [x] Add validation for price and stock quantity.
+- [x] Test product creation.
+- [x] Test product update.
+- [x] Test duplicate SKU rejection.
 
 ## Wave 5 — Product Filtering And Soft Delete
 
