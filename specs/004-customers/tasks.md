@@ -4,15 +4,15 @@
 
 - [x] Create `Customer` entity.
 - [x] Create `CustomerNote` entity.
-- [ ] Create customer request and response DTOs.
+- [x] Create customer request and response DTOs.
 - [ ] Create customer note request and response DTOs.
 - [x] Create customer repository.
 - [x] Create customer note repository.
-- [ ] Create customer service.
+- [x] Create customer service.
 - [ ] Create customer note service.
-- [ ] Create customer controller.
-- [ ] Add customer search and pagination.
-- [ ] Add customer soft delete.
+- [x] Create customer controller.
+- [x] Add customer search and pagination.
+- [x] Add customer soft delete.
 - [ ] Add customer note soft delete.
 - [ ] Add purchase history endpoint contract.
 
@@ -27,11 +27,11 @@
 
 ## Tests
 
-- [ ] Test customer creation.
-- [ ] Test customer update.
-- [ ] Test customer listing filters.
-- [ ] Test customer soft delete.
-- [ ] Test duplicate email rejection.
+- [x] Test customer creation.
+- [x] Test customer update.
+- [x] Test customer listing filters.
+- [x] Test customer soft delete.
+- [x] Test duplicate email rejection.
 - [ ] Test customer note creation.
 - [ ] Test customer note soft delete.
 - [ ] Test role-based access.
