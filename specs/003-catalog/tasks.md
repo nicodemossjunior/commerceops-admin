@@ -75,11 +75,11 @@ The implementation is divided into waves so that every intermediate state is rev
 
 **Planned commit:** `test(catalog): verify access and document catalog API`
 
-- [ ] Test role-based access.
-- [ ] Document category endpoints in OpenAPI.
-- [ ] Document product endpoints in OpenAPI.
-- [ ] Document product filters.
-- [ ] Document product status values.
+- [x] Test role-based access.
+- [x] Document category endpoints in OpenAPI.
+- [x] Document product endpoints in OpenAPI.
+- [x] Document product filters.
+- [x] Document product status values.
 
 ## Wave 7 — Catalog Verification And Completion
 

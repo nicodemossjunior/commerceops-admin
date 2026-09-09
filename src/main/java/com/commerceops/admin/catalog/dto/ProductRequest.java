@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -45,6 +46,7 @@ public record ProductRequest(
         Integer stockQuantity,
 
         @NotNull(message = "Product status is required.")
+        @Schema(allowableValues = {"DRAFT", "ACTIVE", "INACTIVE", "OUT_OF_STOCK"})
         ProductStatus status
 ) {
 }
