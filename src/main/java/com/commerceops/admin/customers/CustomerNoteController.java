@@ -4,6 +4,9 @@ import com.commerceops.admin.common.pagination.PageResponse;
 import com.commerceops.admin.customers.dto.CustomerNoteRequest;
 import com.commerceops.admin.customers.dto.CustomerNoteResponse;
 import com.commerceops.admin.customers.service.CustomerNoteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/customers/{customerPublicId}/notes")
 @PreAuthorize("hasAnyRole('ADMIN', 'SUPPORT')")
+@Tag(name = "Customer Notes", description = "Restricted internal notes for customer support")
+@SecurityRequirement(name = "bearerAuth")
 public class CustomerNoteController {
 
     private final CustomerNoteService customerNoteService;
@@ -30,6 +35,7 @@ public class CustomerNoteController {
     }
 
     @GetMapping
+    @Operation(summary = "List internal customer notes")
     public PageResponse<CustomerNoteResponse> list(
             @PathVariable UUID customerPublicId,
             Pageable pageable
@@ -39,6 +45,7 @@ public class CustomerNoteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Add an internal customer note")
     public CustomerNoteResponse create(
             @PathVariable UUID customerPublicId,
             @Valid @RequestBody CustomerNoteRequest request
@@ -48,6 +55,7 @@ public class CustomerNoteController {
 
     @DeleteMapping("/{notePublicId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Soft delete an internal customer note")
     public void delete(
             @PathVariable UUID customerPublicId,
             @PathVariable UUID notePublicId

@@ -7,10 +7,12 @@ import com.commerceops.admin.common.security.CurrentUserProvider;
 import com.commerceops.admin.customers.dto.CustomerFilter;
 import com.commerceops.admin.customers.dto.CustomerRequest;
 import com.commerceops.admin.customers.dto.CustomerResponse;
+import com.commerceops.admin.customers.dto.CustomerOrderSummaryResponse;
 import com.commerceops.admin.customers.model.Customer;
 import com.commerceops.admin.customers.repository.CustomerRepository;
 import com.commerceops.admin.customers.repository.CustomerSpecifications;
 import java.util.Locale;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -72,6 +74,20 @@ public class CustomerService {
     public void delete(UUID publicId) {
         Customer customer = findActive(publicId);
         customer.markDeleted(currentUserProvider.currentUser().id());
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<CustomerOrderSummaryResponse> purchaseHistory(UUID publicId, Pageable pageable) {
+        findActive(publicId);
+        return new PageResponse<>(
+                List.of(),
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                0,
+                0,
+                true,
+                true
+        );
     }
 
     public Customer findActive(UUID publicId) {

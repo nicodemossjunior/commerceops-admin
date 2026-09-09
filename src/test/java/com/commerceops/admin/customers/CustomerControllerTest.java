@@ -128,6 +128,21 @@ class CustomerControllerTest {
         org.assertj.core.api.Assertions.assertThat(deleted.getDeletedBy()).isEqualTo(42L);
     }
 
+    @Test
+    @WithMockUser(roles = "SUPPORT")
+    void exposesEmptyPurchaseHistoryUntilOrdersAreImplemented() throws Exception {
+        Customer customer = saveCustomer("Alice Smith", "alice@example.com", CustomerStatus.ACTIVE);
+
+        mockMvc.perform(get("/api/customers/{publicId}/orders", customer.getPublicId())
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(0))
+                .andExpect(jsonPath("$.page").value(0))
+                .andExpect(jsonPath("$.size").value(10))
+                .andExpect(jsonPath("$.totalElements").value(0));
+    }
+
     private Customer saveCustomer(String name, String email, CustomerStatus status) {
         return customerRepository.saveAndFlush(
                 new Customer(name, email, "+55 85 99999-9999", "DOC-001", status)

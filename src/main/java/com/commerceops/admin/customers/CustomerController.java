@@ -4,8 +4,13 @@ import com.commerceops.admin.common.pagination.PageResponse;
 import com.commerceops.admin.customers.dto.CustomerFilter;
 import com.commerceops.admin.customers.dto.CustomerRequest;
 import com.commerceops.admin.customers.dto.CustomerResponse;
+import com.commerceops.admin.customers.dto.CustomerOrderSummaryResponse;
 import com.commerceops.admin.customers.model.CustomerStatus;
 import com.commerceops.admin.customers.service.CustomerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/customers")
+@Tag(name = "Customers", description = "Customer records, search, and purchase history")
+@SecurityRequirement(name = "bearerAuth")
 public class CustomerController {
 
     private static final String READ_ROLES = "hasAnyRole('ADMIN', 'MANAGER', 'SUPPORT', 'READ_ONLY', 'CATALOG')";
@@ -35,10 +42,15 @@ public class CustomerController {
 
     @GetMapping
     @PreAuthorize(READ_ROLES)
+    @Operation(summary = "List and filter customers", description = "Returns non-deleted customers with pagination.")
     public PageResponse<CustomerResponse> list(
+            @Parameter(description = "Case-insensitive partial customer name")
             @RequestParam(required = false) String name,
+            @Parameter(description = "Case-insensitive partial customer email")
             @RequestParam(required = false) String email,
+            @Parameter(description = "Partial customer phone")
             @RequestParam(required = false) String phone,
+            @Parameter(description = "Customer status")
             @RequestParam(required = false) CustomerStatus status,
             Pageable pageable
     ) {
@@ -48,18 +60,21 @@ public class CustomerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @Operation(summary = "Create a customer")
     public CustomerResponse create(@Valid @RequestBody CustomerRequest request) {
         return customerService.create(request);
     }
 
     @GetMapping("/{publicId}")
     @PreAuthorize(READ_ROLES)
+    @Operation(summary = "Get a customer by public ID")
     public CustomerResponse get(@PathVariable UUID publicId) {
         return customerService.get(publicId);
     }
 
     @PutMapping("/{publicId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @Operation(summary = "Update a customer")
     public CustomerResponse update(
             @PathVariable UUID publicId,
             @Valid @RequestBody CustomerRequest request
@@ -70,7 +85,21 @@ public class CustomerController {
     @DeleteMapping("/{publicId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @Operation(summary = "Soft delete a customer")
     public void delete(@PathVariable UUID publicId) {
         customerService.delete(publicId);
+    }
+
+    @GetMapping("/{publicId}/orders")
+    @PreAuthorize(READ_ROLES)
+    @Operation(
+            summary = "List customer purchase history",
+            description = "Returns an empty page until Spec 005 provides persisted order data."
+    )
+    public PageResponse<CustomerOrderSummaryResponse> purchaseHistory(
+            @PathVariable UUID publicId,
+            Pageable pageable
+    ) {
+        return customerService.purchaseHistory(publicId, pageable);
     }
 }

@@ -14,7 +14,7 @@
 - [x] Add customer search and pagination.
 - [x] Add customer soft delete.
 - [x] Add customer note soft delete.
-- [ ] Add purchase history endpoint contract.
+- [x] Add purchase history endpoint contract.
 
 ## Database And Flyway
 
@@ -34,14 +34,14 @@
 - [x] Test duplicate email rejection.
 - [x] Test customer note creation.
 - [x] Test customer note soft delete.
-- [ ] Test role-based access.
+- [x] Test role-based access.
 
 ## Documentation
 
-- [ ] Document customer endpoints in OpenAPI.
-- [ ] Document customer note endpoints in OpenAPI.
-- [ ] Document customer status values.
-- [ ] Document purchase history endpoint behavior.
+- [x] Document customer endpoints in OpenAPI.
+- [x] Document customer note endpoints in OpenAPI.
+- [x] Document customer status values.
+- [x] Document purchase history endpoint behavior.
 
 ## Validation
 
