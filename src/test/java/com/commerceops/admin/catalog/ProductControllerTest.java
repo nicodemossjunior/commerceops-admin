@@ -1,5 +1,7 @@
 package com.commerceops.admin.catalog;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -12,7 +14,11 @@ import com.commerceops.admin.catalog.model.Product;
 import com.commerceops.admin.catalog.model.ProductStatus;
 import com.commerceops.admin.catalog.repository.CategoryRepository;
 import com.commerceops.admin.catalog.repository.ProductRepository;
+import com.commerceops.admin.common.security.CurrentUser;
+import com.commerceops.admin.common.security.CurrentUserProvider;
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +45,9 @@ class ProductControllerTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @MockitoBean
+    private CurrentUserProvider currentUserProvider;
 
     private Category category;
 
@@ -115,16 +125,65 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.totalElements").value(1));
     }
 
+    @Test
+    @WithMockUser(roles = "READ_ONLY")
+    void filtersProductsByCombinedCriteria() throws Exception {
+        saveProduct("MOUSE-001", "Wireless Mouse", ProductStatus.ACTIVE, new BigDecimal("99.90"), 5);
+        saveProduct("KEYBOARD-001", "Mechanical Keyboard", ProductStatus.ACTIVE, new BigDecimal("299.90"), 20);
+        saveProduct("MOUSE-002", "Legacy Mouse", ProductStatus.INACTIVE, new BigDecimal("49.90"), 2);
+
+        mockMvc.perform(get("/api/products")
+                        .param("categoryId", category.getPublicId().toString())
+                        .param("status", "ACTIVE")
+                        .param("sku", "mouse")
+                        .param("name", "wireless")
+                        .param("minPrice", "50.00")
+                        .param("maxPrice", "150.00")
+                        .param("lowStock", "true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.content[0].sku").value("MOUSE-001"));
+    }
+
+    @Test
+    @WithMockUser(roles = "CATALOG")
+    void softDeletesProduct() throws Exception {
+        Product product = saveProduct("SKU-001", "Wireless Mouse", ProductStatus.ACTIVE);
+        when(currentUserProvider.currentUser())
+                .thenReturn(new CurrentUser(42L, UUID.randomUUID(), "catalog@example.com", Set.of("CATALOG")));
+
+        mockMvc.perform(delete("/api/products/{publicId}", product.getPublicId()))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/api/products/{publicId}", product.getPublicId()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("RESOURCE_NOT_FOUND"));
+
+        Product deleted = productRepository.findById(product.getId()).orElseThrow();
+        org.assertj.core.api.Assertions.assertThat(deleted.isDeleted()).isTrue();
+        org.assertj.core.api.Assertions.assertThat(deleted.getDeletedBy()).isEqualTo(42L);
+    }
+
     private Product saveProduct(String sku, String name, ProductStatus status) {
+        return saveProduct(sku, name, status, new BigDecimal("99.90"), 10);
+    }
+
+    private Product saveProduct(
+            String sku,
+            String name,
+            ProductStatus status,
+            BigDecimal price,
+            int stockQuantity
+    ) {
         return productRepository.saveAndFlush(new Product(
                 category,
                 sku,
                 name,
                 name.toLowerCase(java.util.Locale.ROOT).replace(' ', '-'),
                 null,
-                new BigDecimal("99.90"),
+                price,
                 null,
-                10,
+                stockQuantity,
                 status
         ));
     }

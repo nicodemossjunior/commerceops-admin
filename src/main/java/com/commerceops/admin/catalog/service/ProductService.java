@@ -2,13 +2,17 @@ package com.commerceops.admin.catalog.service;
 
 import com.commerceops.admin.catalog.dto.ProductRequest;
 import com.commerceops.admin.catalog.dto.ProductResponse;
+import com.commerceops.admin.catalog.dto.ProductFilter;
 import com.commerceops.admin.catalog.model.Category;
 import com.commerceops.admin.catalog.model.Product;
 import com.commerceops.admin.catalog.repository.CategoryRepository;
 import com.commerceops.admin.catalog.repository.ProductRepository;
+import com.commerceops.admin.catalog.repository.ProductSpecifications;
+import com.commerceops.admin.common.error.BusinessRuleException;
 import com.commerceops.admin.common.error.DuplicateResourceException;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
 import com.commerceops.admin.common.pagination.PageResponse;
+import com.commerceops.admin.common.security.CurrentUserProvider;
 import java.util.Locale;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +24,16 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final CurrentUserProvider currentUserProvider;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductService(
+            ProductRepository productRepository,
+            CategoryRepository categoryRepository,
+            CurrentUserProvider currentUserProvider
+    ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Transactional
@@ -53,8 +63,11 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public PageResponse<ProductResponse> list(Pageable pageable) {
-        return PageResponse.from(productRepository.findAllByDeletedFalse(pageable).map(this::toResponse));
+    public PageResponse<ProductResponse> list(ProductFilter filter, Pageable pageable) {
+        validatePriceRange(filter);
+        return PageResponse.from(
+                productRepository.findAll(ProductSpecifications.withFilters(filter), pageable).map(this::toResponse)
+        );
     }
 
     @Transactional
@@ -77,6 +90,26 @@ public class ProductService {
         );
 
         return toResponse(product);
+    }
+
+    @Transactional
+    public void delete(UUID publicId) {
+        Product product = findActive(publicId);
+        product.markDeleted(currentUserProvider.currentUser().id());
+    }
+
+    private void validatePriceRange(ProductFilter filter) {
+        if (filter.minPrice() != null && filter.minPrice().signum() < 0) {
+            throw new BusinessRuleException("Minimum price cannot be negative.");
+        }
+        if (filter.maxPrice() != null && filter.maxPrice().signum() < 0) {
+            throw new BusinessRuleException("Maximum price cannot be negative.");
+        }
+        if (filter.minPrice() != null
+                && filter.maxPrice() != null
+                && filter.minPrice().compareTo(filter.maxPrice()) > 0) {
+            throw new BusinessRuleException("Minimum price cannot be greater than maximum price.");
+        }
     }
 
     private Product findActive(UUID publicId) {

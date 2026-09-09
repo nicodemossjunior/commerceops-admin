@@ -64,10 +64,10 @@ The implementation is divided into waves so that every intermediate state is rev
 
 **Planned commit:** `feat(catalog): add product filtering and soft delete`
 
-- [ ] Add product filters.
-- [ ] Add product soft delete.
-- [ ] Test product filtering.
-- [ ] Test product soft delete.
+- [x] Add product filters.
+- [x] Add product soft delete.
+- [x] Test product filtering.
+- [x] Test product soft delete.
 
 ## Wave 6 — Authorization And API Documentation
 
