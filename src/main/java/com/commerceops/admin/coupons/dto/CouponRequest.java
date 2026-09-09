@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -17,9 +18,11 @@ public record CouponRequest(
         @Size(max = 1000, message = "Coupon description must not exceed 1000 characters.")
         String description,
         @NotNull(message = "Coupon discount type is required.")
+        @Schema(allowableValues = {"FIXED_AMOUNT", "PERCENTAGE"})
         DiscountType discountType,
         @NotNull(message = "Coupon discount value is required.")
         @Digits(integer = 17, fraction = 2, message = "Coupon discount value must have at most 2 decimal places.")
+        @Schema(description = "Must be greater than zero; percentage values cannot exceed 100.", example = "10.00")
         BigDecimal discountValue,
         Instant startsAt,
         Instant endsAt,
@@ -28,6 +31,7 @@ public record CouponRequest(
         @Positive(message = "Coupon per-customer limit must be greater than zero.")
         Integer perCustomerLimit,
         @NotNull(message = "Coupon status is required.")
+        @Schema(allowableValues = {"ACTIVE", "INACTIVE", "EXPIRED"})
         CouponStatus status
 ) {
 }

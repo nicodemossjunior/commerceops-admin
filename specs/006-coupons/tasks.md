@@ -30,14 +30,14 @@
 - [x] Test percentage discount validation.
 - [x] Test date range validation.
 - [x] Test activation and deactivation.
-- [ ] Test role-based access.
+- [x] Test role-based access.
 
 ## Documentation
 
-- [ ] Document coupon endpoints in OpenAPI.
-- [ ] Document discount type values.
-- [ ] Document coupon status values.
-- [ ] Document coupon validation rules.
+- [x] Document coupon endpoints in OpenAPI.
+- [x] Document discount type values.
+- [x] Document coupon status values.
+- [x] Document coupon validation rules.
 
 ## Validation
 
