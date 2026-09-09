@@ -2,15 +2,15 @@
 
 ## Backend
 
-- [ ] Create `SalesOrder` entity.
-- [ ] Create `OrderItem` entity.
-- [ ] Create `OrderStatusHistory` entity.
+- [x] Create `SalesOrder` entity.
+- [x] Create `OrderItem` entity.
+- [x] Create `OrderStatusHistory` entity.
 - [ ] Create order response DTOs.
 - [ ] Create status update request DTO.
 - [ ] Create cancel request DTO.
 - [ ] Create refund request DTO.
-- [ ] Create order repository.
-- [ ] Create order status history repository.
+- [x] Create order repository.
+- [x] Create order status history repository.
 - [ ] Create order service.
 - [ ] Create order status transition service.
 - [ ] Create order controller.
@@ -19,13 +19,13 @@
 
 ## Database And Flyway
 
-- [ ] Create `sales_order` table migration.
-- [ ] Create `order_item` table migration.
-- [ ] Create `order_status_history` table migration.
-- [ ] Add unique constraint for order `public_id`.
-- [ ] Add unique constraint for `order_number`.
-- [ ] Add indexes for `customer_id`, `status`, and `created_at`.
-- [ ] Add indexes for order item `sales_order_id` and `product_id`.
+- [x] Create `sales_order` table migration.
+- [x] Create `order_item` table migration.
+- [x] Create `order_status_history` table migration.
+- [x] Add unique constraint for order `public_id`.
+- [x] Add unique constraint for `order_number`.
+- [x] Add indexes for `customer_id`, `status`, and `created_at`.
+- [x] Add indexes for order item `sales_order_id` and `product_id`.
 
 ## Tests
 
@@ -51,4 +51,3 @@
 - [ ] Run controller tests.
 - [ ] Run repository integration tests.
 - [ ] Run migration validation.
-
