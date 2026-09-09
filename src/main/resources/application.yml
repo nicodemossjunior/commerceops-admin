@@ -6,6 +6,7 @@ spring:
   flyway:
     placeholders:
       activeUniquePredicate: "WHERE deleted = FALSE"
+      customerEmailUniquePredicate: "WHERE deleted = FALSE AND email IS NOT NULL"
 
 server:
   port: ${SERVER_PORT:8080}

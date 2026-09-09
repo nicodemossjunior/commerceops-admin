@@ -2,12 +2,12 @@
 
 ## Backend
 
-- [ ] Create `Customer` entity.
-- [ ] Create `CustomerNote` entity.
+- [x] Create `Customer` entity.
+- [x] Create `CustomerNote` entity.
 - [ ] Create customer request and response DTOs.
 - [ ] Create customer note request and response DTOs.
-- [ ] Create customer repository.
-- [ ] Create customer note repository.
+- [x] Create customer repository.
+- [x] Create customer note repository.
 - [ ] Create customer service.
 - [ ] Create customer note service.
 - [ ] Create customer controller.
@@ -18,12 +18,12 @@
 
 ## Database And Flyway
 
-- [ ] Create `customer` table migration.
-- [ ] Create `customer_note` table migration.
-- [ ] Add unique constraint for customer `public_id`.
-- [ ] Add unique constraint or partial unique index for customer email.
-- [ ] Add indexes for customer `email`, `status`, and `created_at`.
-- [ ] Add index for customer note `customer_id`.
+- [x] Create `customer` table migration.
+- [x] Create `customer_note` table migration.
+- [x] Add unique constraint for customer `public_id`.
+- [x] Add unique constraint or partial unique index for customer email.
+- [x] Add indexes for customer `email`, `status`, and `created_at`.
+- [x] Add index for customer note `customer_id`.
 
 ## Tests
 
@@ -49,4 +49,3 @@
 - [ ] Run controller tests.
 - [ ] Run repository integration tests.
 - [ ] Run migration validation.
-
