@@ -3,12 +3,14 @@ package com.commerceops.admin.orders.service;
 import com.commerceops.admin.common.error.BusinessRuleException;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
 import com.commerceops.admin.common.pagination.PageResponse;
+import com.commerceops.admin.common.security.CurrentUserProvider;
 import com.commerceops.admin.orders.dto.OrderDetailResponse;
 import com.commerceops.admin.orders.dto.OrderFilter;
 import com.commerceops.admin.orders.dto.OrderItemResponse;
 import com.commerceops.admin.orders.dto.OrderStatusHistoryResponse;
 import com.commerceops.admin.orders.dto.OrderSummaryResponse;
 import com.commerceops.admin.orders.model.OrderItem;
+import com.commerceops.admin.orders.model.OrderStatus;
 import com.commerceops.admin.orders.model.OrderStatusHistory;
 import com.commerceops.admin.orders.model.SalesOrder;
 import com.commerceops.admin.orders.repository.OrderSpecifications;
@@ -23,9 +25,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
 
     private final SalesOrderRepository salesOrderRepository;
+    private final OrderStatusTransitionService transitionService;
+    private final CurrentUserProvider currentUserProvider;
 
-    public OrderService(SalesOrderRepository salesOrderRepository) {
+    public OrderService(
+            SalesOrderRepository salesOrderRepository,
+            OrderStatusTransitionService transitionService,
+            CurrentUserProvider currentUserProvider
+    ) {
         this.salesOrderRepository = salesOrderRepository;
+        this.transitionService = transitionService;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Transactional(readOnly = true)
@@ -41,9 +51,47 @@ public class OrderService {
         return toDetail(findActive(publicId));
     }
 
+    @Transactional
+    public OrderDetailResponse updateStatus(UUID publicId, OrderStatus status, String reason) {
+        SalesOrder order = findActive(publicId);
+        transition(order, status, reason);
+        salesOrderRepository.flush();
+        return toDetail(order);
+    }
+
+    @Transactional
+    public OrderDetailResponse cancel(UUID publicId, String reason) {
+        return updateStatus(publicId, OrderStatus.CANCELLED, reason);
+    }
+
+    @Transactional
+    public OrderDetailResponse refund(UUID publicId, String reason) {
+        return updateStatus(publicId, OrderStatus.REFUNDED, reason);
+    }
+
     public SalesOrder findActive(UUID publicId) {
         return salesOrderRepository.findByPublicIdAndDeletedFalse(publicId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order was not found."));
+    }
+
+    private void transition(
+            SalesOrder order,
+            OrderStatus requestedStatus,
+            String reason
+    ) {
+        OrderStatus previousStatus = order.getStatus();
+        transitionService.validate(previousStatus, requestedStatus);
+        order.changeStatus(requestedStatus);
+        order.addStatusHistory(
+                previousStatus,
+                requestedStatus,
+                currentUserProvider.currentUser().id(),
+                normalizeReason(reason)
+        );
+    }
+
+    private String normalizeReason(String reason) {
+        return reason == null || reason.isBlank() ? null : reason.trim();
     }
 
     OrderSummaryResponse toSummary(SalesOrder order) {
