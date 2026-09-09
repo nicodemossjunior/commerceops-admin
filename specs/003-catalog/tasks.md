@@ -25,13 +25,13 @@ The implementation is divided into waves so that every intermediate state is rev
 
 **Planned commit:** `feat(catalog): implement category management`
 
-- [ ] Create category request and response DTOs.
-- [ ] Create category service.
-- [ ] Create category controller.
-- [ ] Add category listing with pagination.
-- [ ] Add validation for unique slug.
-- [ ] Test category creation.
-- [ ] Test category update.
+- [x] Create category request and response DTOs.
+- [x] Create category service.
+- [x] Create category controller.
+- [x] Add category listing with pagination.
+- [x] Add validation for unique slug.
+- [x] Test category creation.
+- [x] Test category update.
 
 ## Wave 3 — Category Soft Delete
 

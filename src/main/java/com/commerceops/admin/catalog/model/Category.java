@@ -61,4 +61,12 @@ public class Category extends BaseEntity {
     public CategoryStatus getStatus() {
         return status;
     }
+
+    public void update(String name, String slug, String description, CategoryStatus status, Category parent) {
+        this.name = name;
+        this.slug = slug;
+        this.description = description;
+        this.status = status;
+        this.parent = parent;
+    }
 }
