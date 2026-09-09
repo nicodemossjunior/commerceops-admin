@@ -10,11 +10,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.commerceops.admin.catalog.model.Category;
 import com.commerceops.admin.catalog.model.CategoryStatus;
+import com.commerceops.admin.catalog.model.Product;
+import com.commerceops.admin.catalog.model.ProductStatus;
 import com.commerceops.admin.catalog.repository.CategoryRepository;
+import com.commerceops.admin.catalog.repository.ProductRepository;
 import com.commerceops.admin.common.security.CurrentUser;
 import com.commerceops.admin.common.security.CurrentUserProvider;
 import java.util.Set;
 import java.util.UUID;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +41,9 @@ class CategoryControllerTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @MockitoBean
     private CurrentUserProvider currentUserProvider;
@@ -140,5 +147,28 @@ class CategoryControllerTest {
         org.assertj.core.api.Assertions.assertThat(deleted.isDeleted()).isTrue();
         org.assertj.core.api.Assertions.assertThat(deleted.getDeletedBy()).isEqualTo(42L);
         org.assertj.core.api.Assertions.assertThat(deleted.getDeletedAt()).isNotNull();
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void rejectsCategoryDeletionWhenItHasActiveProducts() throws Exception {
+        Category category = categoryRepository.saveAndFlush(
+                new Category("Electronics", "electronics", null, CategoryStatus.ACTIVE, null)
+        );
+        productRepository.saveAndFlush(new Product(
+                category,
+                "SKU-001",
+                "Wireless Mouse",
+                "wireless-mouse",
+                null,
+                new BigDecimal("99.90"),
+                null,
+                10,
+                ProductStatus.ACTIVE
+        ));
+
+        mockMvc.perform(delete("/api/categories/{publicId}", category.getPublicId()))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.code").value("BUSINESS_RULE_VIOLATION"));
     }
 }

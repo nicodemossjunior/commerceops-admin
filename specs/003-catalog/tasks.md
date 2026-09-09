@@ -87,9 +87,9 @@ The implementation is divided into waves so that every intermediate state is rev
 
 **Planned commit:** `chore(catalog): complete catalog specification`
 
-- [ ] Run unit tests.
-- [ ] Run controller tests.
-- [ ] Run repository integration tests.
+- [x] Run unit tests.
+- [x] Run controller tests.
+- [x] Run repository integration tests.
 
 ## Validation
 
