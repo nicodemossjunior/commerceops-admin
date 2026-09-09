@@ -3,11 +3,14 @@ package com.commerceops.admin.catalog.service;
 import com.commerceops.admin.catalog.dto.CategoryRequest;
 import com.commerceops.admin.catalog.dto.CategoryResponse;
 import com.commerceops.admin.catalog.model.Category;
+import com.commerceops.admin.catalog.model.ProductStatus;
 import com.commerceops.admin.catalog.repository.CategoryRepository;
+import com.commerceops.admin.catalog.repository.ProductRepository;
 import com.commerceops.admin.common.error.BusinessRuleException;
 import com.commerceops.admin.common.error.DuplicateResourceException;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
 import com.commerceops.admin.common.pagination.PageResponse;
+import com.commerceops.admin.common.security.CurrentUserProvider;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final CurrentUserProvider currentUserProvider;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(
+            CategoryRepository categoryRepository,
+            ProductRepository productRepository,
+            CurrentUserProvider currentUserProvider
+    ) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
+        this.currentUserProvider = currentUserProvider;
     }
 
     @Transactional
@@ -69,6 +80,15 @@ public class CategoryService {
         );
 
         return toResponse(category);
+    }
+
+    @Transactional
+    public void delete(UUID publicId) {
+        Category category = findActive(publicId);
+        if (productRepository.existsByCategoryIdAndStatusAndDeletedFalse(category.getId(), ProductStatus.ACTIVE)) {
+            throw new BusinessRuleException("Category cannot be deleted because it has active products.");
+        }
+        category.markDeleted(currentUserProvider.currentUser().id());
     }
 
     private Category findActive(UUID publicId) {

@@ -1,5 +1,7 @@
 package com.commerceops.admin.catalog;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -9,6 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.commerceops.admin.catalog.model.Category;
 import com.commerceops.admin.catalog.model.CategoryStatus;
 import com.commerceops.admin.catalog.repository.CategoryRepository;
+import com.commerceops.admin.common.security.CurrentUser;
+import com.commerceops.admin.common.security.CurrentUserProvider;
+import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +37,9 @@ class CategoryControllerTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @MockitoBean
+    private CurrentUserProvider currentUserProvider;
 
     @Test
     @WithMockUser(roles = "ADMIN")
@@ -108,5 +118,27 @@ class CategoryControllerTest {
                                 """))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.code").value("DUPLICATE_RESOURCE"));
+    }
+
+    @Test
+    @WithMockUser(roles = "CATALOG")
+    void softDeletesCategory() throws Exception {
+        Category category = categoryRepository.saveAndFlush(
+                new Category("Electronics", "electronics", null, CategoryStatus.ACTIVE, null)
+        );
+        when(currentUserProvider.currentUser())
+                .thenReturn(new CurrentUser(42L, UUID.randomUUID(), "catalog@example.com", Set.of("CATALOG")));
+
+        mockMvc.perform(delete("/api/categories/{publicId}", category.getPublicId()))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/api/categories/{publicId}", category.getPublicId()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("RESOURCE_NOT_FOUND"));
+
+        Category deleted = categoryRepository.findById(category.getId()).orElseThrow();
+        org.assertj.core.api.Assertions.assertThat(deleted.isDeleted()).isTrue();
+        org.assertj.core.api.Assertions.assertThat(deleted.getDeletedBy()).isEqualTo(42L);
+        org.assertj.core.api.Assertions.assertThat(deleted.getDeletedAt()).isNotNull();
     }
 }

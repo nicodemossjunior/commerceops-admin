@@ -39,8 +39,8 @@ The implementation is divided into waves so that every intermediate state is rev
 
 **Planned commit:** `feat(catalog): add category soft delete`
 
-- [ ] Add category soft delete.
-- [ ] Test category soft delete.
+- [x] Add category soft delete.
+- [x] Test category soft delete.
 
 ## Wave 4 — Product Read And Write Operations
 
