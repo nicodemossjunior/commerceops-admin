@@ -3,6 +3,9 @@ spring:
     name: commerceops-admin
   profiles:
     default: local
+  flyway:
+    placeholders:
+      activeUniquePredicate: "WHERE deleted = FALSE"
 
 server:
   port: ${SERVER_PORT:8080}
