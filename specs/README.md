@@ -13,7 +13,7 @@ The project must be developed in English across code, API contracts, validation 
 | 002 | [Authentication](002-auth/spec.md) | completed | JWT authentication, admin users, roles, password hashing, and protected endpoints. |
 | 003 | [Catalog](003-catalog/spec.md) | completed | Categories, products, SKU, pricing, inventory basics, filtering, pagination, and soft delete. |
 | 004 | [Customers](004-customers/spec.md) | completed | Customer records, contact data, status, internal notes, and purchase history access. |
-| 005 | [Orders](005-orders/spec.md) | planned | Order listing, details, items, status transitions, history, cancellation, and refunds. |
+| 005 | [Orders](005-orders/spec.md) | completed | Order listing, details, items, status transitions, history, cancellation, and refunds. |
 | 006 | [Coupons](006-coupons/spec.md) | planned | Promotional coupons, discount rules, validity, usage limits, and activation status. |
 | 007 | [Dashboard](007-dashboard/spec.md) | planned | Operational summary metrics for revenue, orders, customers, inventory, and cancellations. |
 | 008 | [Audit](008-audit/spec.md) | planned | Audit trail for sensitive actions and relevant domain changes. |
