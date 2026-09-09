@@ -94,7 +94,7 @@ public class CustomerController {
     @PreAuthorize(READ_ROLES)
     @Operation(
             summary = "List customer purchase history",
-            description = "Returns an empty page until Spec 005 provides persisted order data."
+            description = "Returns the customer's non-deleted orders with pagination."
     )
     public PageResponse<CustomerOrderSummaryResponse> purchaseHistory(
             @PathVariable UUID publicId,

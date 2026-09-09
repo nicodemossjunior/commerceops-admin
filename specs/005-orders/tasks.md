@@ -36,14 +36,14 @@
 - [x] Test cancellation.
 - [x] Test refund.
 - [x] Test status history creation.
-- [ ] Test role-based access.
+- [x] Test role-based access.
 
 ## Documentation
 
-- [ ] Document order endpoints in OpenAPI.
-- [ ] Document order status values.
-- [ ] Document status transition rules.
-- [ ] Document cancellation and refund behavior.
+- [x] Document order endpoints in OpenAPI.
+- [x] Document order status values.
+- [x] Document status transition rules.
+- [x] Document cancellation and refund behavior.
 
 ## Validation
 
