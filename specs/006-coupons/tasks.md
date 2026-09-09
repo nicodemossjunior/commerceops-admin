@@ -2,9 +2,9 @@
 
 ## Backend
 
-- [ ] Create `Coupon` entity.
+- [x] Create `Coupon` entity.
 - [ ] Create coupon request and response DTOs.
-- [ ] Create coupon repository.
+- [x] Create coupon repository.
 - [ ] Create coupon service.
 - [ ] Create coupon controller.
 - [ ] Add coupon listing with filters and pagination.
@@ -15,10 +15,10 @@
 
 ## Database And Flyway
 
-- [ ] Create `coupon` table migration.
-- [ ] Add unique constraint or partial unique index for coupon code.
-- [ ] Add unique constraint for coupon `public_id`.
-- [ ] Add indexes for coupon `status`, `code`, and validity dates.
+- [x] Create `coupon` table migration.
+- [x] Add unique constraint or partial unique index for coupon code.
+- [x] Add unique constraint for coupon `public_id`.
+- [x] Add indexes for coupon `status`, `code`, and validity dates.
 
 ## Tests
 
@@ -45,4 +45,3 @@
 - [ ] Run controller tests.
 - [ ] Run repository integration tests.
 - [ ] Run migration validation.
-
