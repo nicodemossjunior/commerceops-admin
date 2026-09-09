@@ -5,16 +5,16 @@
 - [x] Create `SalesOrder` entity.
 - [x] Create `OrderItem` entity.
 - [x] Create `OrderStatusHistory` entity.
-- [ ] Create order response DTOs.
+- [x] Create order response DTOs.
 - [ ] Create status update request DTO.
 - [ ] Create cancel request DTO.
 - [ ] Create refund request DTO.
 - [x] Create order repository.
 - [x] Create order status history repository.
-- [ ] Create order service.
+- [x] Create order service.
 - [ ] Create order status transition service.
-- [ ] Create order controller.
-- [ ] Add order filters and pagination.
+- [x] Create order controller.
+- [x] Add order filters and pagination.
 - [ ] Add order status history recording.
 
 ## Database And Flyway
@@ -29,8 +29,8 @@
 
 ## Tests
 
-- [ ] Test order listing.
-- [ ] Test order detail.
+- [x] Test order listing.
+- [x] Test order detail.
 - [ ] Test valid status transition.
 - [ ] Test invalid status transition.
 - [ ] Test cancellation.

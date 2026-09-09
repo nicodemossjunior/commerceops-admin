@@ -11,8 +11,8 @@ import com.commerceops.admin.customers.dto.CustomerOrderSummaryResponse;
 import com.commerceops.admin.customers.model.Customer;
 import com.commerceops.admin.customers.repository.CustomerRepository;
 import com.commerceops.admin.customers.repository.CustomerSpecifications;
+import com.commerceops.admin.orders.repository.SalesOrderRepository;
 import java.util.Locale;
-import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,16 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CurrentUserProvider currentUserProvider;
+    private final SalesOrderRepository salesOrderRepository;
 
-    public CustomerService(CustomerRepository customerRepository, CurrentUserProvider currentUserProvider) {
+    public CustomerService(
+            CustomerRepository customerRepository,
+            CurrentUserProvider currentUserProvider,
+            SalesOrderRepository salesOrderRepository
+    ) {
         this.customerRepository = customerRepository;
         this.currentUserProvider = currentUserProvider;
+        this.salesOrderRepository = salesOrderRepository;
     }
 
     @Transactional
@@ -78,15 +84,16 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public PageResponse<CustomerOrderSummaryResponse> purchaseHistory(UUID publicId, Pageable pageable) {
-        findActive(publicId);
-        return new PageResponse<>(
-                List.of(),
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                0,
-                0,
-                true,
-                true
+        Customer customer = findActive(publicId);
+        return PageResponse.from(
+                salesOrderRepository.findAllByCustomerIdAndDeletedFalse(customer.getId(), pageable)
+                        .map(order -> new CustomerOrderSummaryResponse(
+                                order.getPublicId(),
+                                order.getOrderNumber(),
+                                order.getStatus().name(),
+                                order.getTotalAmount(),
+                                order.getCreatedAt()
+                        ))
         );
     }
 
