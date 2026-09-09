@@ -29,7 +29,7 @@ CREATE TABLE coupon (
     CONSTRAINT ck_coupon_status CHECK (status IN ('ACTIVE', 'INACTIVE', 'EXPIRED'))
 );
 
-CREATE UNIQUE INDEX uk_coupon_active_code ON coupon (code) ${activeUniquePredicate};
+CREATE ${couponCodeUniqueKeyword} INDEX uk_coupon_active_code ON coupon (code) ${activeUniquePredicate};
 CREATE INDEX idx_coupon_public_id ON coupon (public_id);
 CREATE INDEX idx_coupon_code ON coupon (code);
 CREATE INDEX idx_coupon_status ON coupon (status);

@@ -15,6 +15,7 @@ spring:
     placeholders:
       activeUniquePredicate: ""
       customerEmailUniquePredicate: ""
+      couponCodeUniqueKeyword: ""
 
 commerceops:
   security:

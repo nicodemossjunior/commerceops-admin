@@ -198,6 +198,12 @@ class CouponControllerTest {
         Coupon deleted = couponRepository.findById(coupon.getId()).orElseThrow();
         assertThat(deleted.isDeleted()).isTrue();
         assertThat(deleted.getDeletedBy()).isEqualTo(42L);
+
+        mockMvc.perform(post("/api/coupons")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(couponJson("welcome10", "FIXED_AMOUNT", "5.00", "ACTIVE", null, null)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.code").value("WELCOME10"));
     }
 
     private Coupon saveCoupon(String code, DiscountType type, String value, CouponStatus status) {
