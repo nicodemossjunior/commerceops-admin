@@ -30,13 +30,13 @@
 - [x] Test average order value calculation.
 - [x] Test cancellation and refund indicators.
 - [x] Test low-stock products.
-- [ ] Test role-based access.
+- [x] Test role-based access.
 
 ## Documentation
 
-- [ ] Document dashboard endpoint in OpenAPI.
-- [ ] Document period filter values.
-- [ ] Document metric meanings.
+- [x] Document dashboard endpoint in OpenAPI.
+- [x] Document period filter values.
+- [x] Document metric meanings.
 
 ## Validation
 
