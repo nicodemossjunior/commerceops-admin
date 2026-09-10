@@ -2,17 +2,17 @@
 
 ## Backend
 
-- [ ] Create dashboard summary response DTO.
-- [ ] Create dashboard metric DTOs.
-- [ ] Create recent order summary DTO.
-- [ ] Create low-stock product summary DTO.
-- [ ] Create dashboard service.
-- [ ] Create dashboard controller.
+- [x] Create dashboard summary response DTO.
+- [x] Create dashboard metric DTOs.
+- [x] Create recent order summary DTO.
+- [x] Create low-stock product summary DTO.
+- [x] Create dashboard service.
+- [x] Create dashboard controller.
 - [x] Add period parsing.
-- [ ] Add configurable low-stock threshold.
-- [ ] Add revenue metric calculations.
-- [ ] Add order metric calculations.
-- [ ] Add customer count metric.
+- [x] Add configurable low-stock threshold.
+- [x] Add revenue metric calculations.
+- [x] Add order metric calculations.
+- [x] Add customer count metric.
 - [x] Add low-stock product query.
 
 ## Database
@@ -23,13 +23,13 @@
 
 ## Tests
 
-- [ ] Test dashboard summary default period.
-- [ ] Test dashboard summary custom period.
-- [ ] Test invalid custom period.
-- [ ] Test revenue calculations.
-- [ ] Test average order value calculation.
-- [ ] Test cancellation and refund indicators.
-- [ ] Test low-stock products.
+- [x] Test dashboard summary default period.
+- [x] Test dashboard summary custom period.
+- [x] Test invalid custom period.
+- [x] Test revenue calculations.
+- [x] Test average order value calculation.
+- [x] Test cancellation and refund indicators.
+- [x] Test low-stock products.
 - [ ] Test role-based access.
 
 ## Documentation

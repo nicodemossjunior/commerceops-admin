@@ -19,6 +19,8 @@ management:
         include: health,info
 
 commerceops:
+  dashboard:
+    low-stock-threshold: ${DASHBOARD_LOW_STOCK_THRESHOLD:10}
   security:
     jwt:
       issuer: ${JWT_ISSUER:commerceops-admin}
