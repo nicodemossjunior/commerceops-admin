@@ -8,18 +8,18 @@
 - [ ] Create low-stock product summary DTO.
 - [ ] Create dashboard service.
 - [ ] Create dashboard controller.
-- [ ] Add period parsing.
+- [x] Add period parsing.
 - [ ] Add configurable low-stock threshold.
 - [ ] Add revenue metric calculations.
 - [ ] Add order metric calculations.
 - [ ] Add customer count metric.
-- [ ] Add low-stock product query.
+- [x] Add low-stock product query.
 
 ## Database
 
-- [ ] Review indexes required for dashboard queries.
-- [ ] Add indexes for order date and status if not already covered.
-- [ ] Add indexes for product stock and status if not already covered.
+- [x] Review indexes required for dashboard queries.
+- [x] Add indexes for order date and status if not already covered.
+- [x] Add indexes for product stock and status if not already covered.
 
 ## Tests
 
@@ -43,4 +43,3 @@
 - [ ] Run unit tests.
 - [ ] Run controller tests.
 - [ ] Run repository integration tests for dashboard queries.
-

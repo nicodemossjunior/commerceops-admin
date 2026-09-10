@@ -13,4 +13,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSp
     boolean existsByEmailIgnoreCaseAndDeletedFalse(String email);
 
     boolean existsByEmailIgnoreCaseAndDeletedFalseAndIdNot(String email, Long id);
+
+    long countByDeletedFalse();
 }

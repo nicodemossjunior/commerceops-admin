@@ -20,4 +20,11 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Page<Product> findAllByDeletedFalse(Pageable pageable);
 
     boolean existsByCategoryIdAndStatusAndDeletedFalse(Long categoryId, ProductStatus status);
+
+    long countByStockQuantityLessThanEqualAndDeletedFalse(int stockQuantity);
+
+    Page<Product> findByStockQuantityLessThanEqualAndDeletedFalseOrderByStockQuantityAscNameAsc(
+            int stockQuantity,
+            Pageable pageable
+    );
 }
