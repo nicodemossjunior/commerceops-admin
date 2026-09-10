@@ -15,7 +15,7 @@ The project must be developed in English across code, API contracts, validation 
 | 004 | [Customers](004-customers/spec.md) | completed | Customer records, contact data, status, internal notes, and purchase history access. |
 | 005 | [Orders](005-orders/spec.md) | completed | Order listing, details, items, status transitions, history, cancellation, and refunds. |
 | 006 | [Coupons](006-coupons/spec.md) | completed | Promotional coupons, discount rules, validity, usage limits, and activation status. |
-| 007 | [Dashboard](007-dashboard/spec.md) | planned | Operational summary metrics for revenue, orders, customers, inventory, and cancellations. |
+| 007 | [Dashboard](007-dashboard/spec.md) | completed | Operational summary metrics for revenue, orders, customers, inventory, and cancellations. |
 | 008 | [Audit](008-audit/spec.md) | planned | Audit trail for sensitive actions and relevant domain changes. |
 | 009 | [Observability](009-observability/spec.md) | planned | Structured logs, request correlation, metrics, actuator exposure, and tracing readiness. |
 | 010 | [API Documentation](010-api-documentation/spec.md) | planned | OpenAPI documentation, API examples, error documentation, and endpoint discoverability. |

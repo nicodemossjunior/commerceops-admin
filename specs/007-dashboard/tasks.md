@@ -40,6 +40,6 @@
 
 ## Validation
 
-- [ ] Run unit tests.
-- [ ] Run controller tests.
-- [ ] Run repository integration tests for dashboard queries.
+- [x] Run unit tests.
+- [x] Run controller tests.
+- [x] Run repository integration tests for dashboard queries.
