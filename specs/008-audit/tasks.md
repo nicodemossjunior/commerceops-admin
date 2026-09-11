@@ -2,10 +2,10 @@
 
 ## Backend
 
-- [ ] Create `AuditLog` entity.
-- [ ] Create audit action enum.
+- [x] Create `AuditLog` entity.
+- [x] Create audit action enum.
 - [ ] Create audit service.
-- [ ] Create audit repository.
+- [x] Create audit repository.
 - [ ] Create audit response DTOs.
 - [ ] Create audit controller.
 - [ ] Add audit filtering and pagination.
@@ -15,9 +15,9 @@
 
 ## Database And Flyway
 
-- [ ] Create `audit_log` table migration.
-- [ ] Add unique constraint for audit log `public_id`.
-- [ ] Add indexes for `actor_user_id`, `actor_email`, `action`, `entity_type`, and `created_at`.
+- [x] Create `audit_log` table migration.
+- [x] Add unique constraint for audit log `public_id`.
+- [x] Add indexes for `actor_user_id`, `actor_email`, `action`, `entity_type`, and `created_at`.
 
 ## Tests
 
@@ -39,4 +39,3 @@
 - [ ] Run controller tests.
 - [ ] Run repository integration tests.
 - [ ] Run migration validation.
-
