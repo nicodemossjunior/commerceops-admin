@@ -50,6 +50,8 @@ Passwords, password hashes, JWTs, bearer tokens, access or refresh tokens, autho
 
 Request logging intentionally excludes bodies, query strings, and headers. When a value from an external source must be logged, pass it through `SensitiveLogSanitizer` first. Authentication metrics use counters without email or user ID tags.
 
+Spring MVC request and response body loggers remain at `INFO` even when broader debugging is enabled. This prevents login passwords and issued JWTs from appearing in diagnostic logs.
+
 ## Local Actuator Endpoints
 
 The `local` profile exposes:

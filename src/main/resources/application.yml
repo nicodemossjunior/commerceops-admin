@@ -46,6 +46,8 @@ logging:
   level:
     root: ${ROOT_LOG_LEVEL:INFO}
     com.commerceops.admin: ${APPLICATION_LOG_LEVEL:INFO}
+    org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor: INFO
+    org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor: INFO
   structured:
     format:
       console: ${CONSOLE_LOG_FORMAT:logstash}
