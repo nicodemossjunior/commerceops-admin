@@ -35,6 +35,6 @@
 
 ## Validation
 
-- [ ] Run unit tests.
-- [ ] Run application context tests.
-- [ ] Manually verify local actuator health endpoint after backend exists.
+- [x] Run unit tests.
+- [x] Run application context tests.
+- [x] Manually verify local actuator health endpoint after backend exists.
