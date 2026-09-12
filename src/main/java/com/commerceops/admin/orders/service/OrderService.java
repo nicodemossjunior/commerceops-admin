@@ -1,5 +1,7 @@
 package com.commerceops.admin.orders.service;
 
+import com.commerceops.admin.audit.model.AuditAction;
+import com.commerceops.admin.audit.service.AuditRecorder;
 import com.commerceops.admin.common.error.BusinessRuleException;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
 import com.commerceops.admin.common.pagination.PageResponse;
@@ -16,6 +18,8 @@ import com.commerceops.admin.orders.model.SalesOrder;
 import com.commerceops.admin.orders.repository.OrderSpecifications;
 import com.commerceops.admin.orders.repository.SalesOrderRepository;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,15 +31,18 @@ public class OrderService {
     private final SalesOrderRepository salesOrderRepository;
     private final OrderStatusTransitionService transitionService;
     private final CurrentUserProvider currentUserProvider;
+    private final AuditRecorder auditRecorder;
 
     public OrderService(
             SalesOrderRepository salesOrderRepository,
             OrderStatusTransitionService transitionService,
-            CurrentUserProvider currentUserProvider
+            CurrentUserProvider currentUserProvider,
+            AuditRecorder auditRecorder
     ) {
         this.salesOrderRepository = salesOrderRepository;
         this.transitionService = transitionService;
         this.currentUserProvider = currentUserProvider;
+        this.auditRecorder = auditRecorder;
     }
 
     @Transactional(readOnly = true)
@@ -56,6 +63,7 @@ public class OrderService {
         SalesOrder order = findActive(publicId);
         transition(order, status, reason);
         salesOrderRepository.flush();
+        recordStatusChange(order, status, reason);
         return toDetail(order);
     }
 
@@ -92,6 +100,21 @@ public class OrderService {
 
     private String normalizeReason(String reason) {
         return reason == null || reason.isBlank() ? null : reason.trim();
+    }
+
+    private void recordStatusChange(SalesOrder order, OrderStatus status, String reason) {
+        AuditAction action = switch (status) {
+            case CANCELLED -> AuditAction.ORDER_CANCELLED;
+            case REFUNDED -> AuditAction.ORDER_REFUNDED;
+            default -> AuditAction.ORDER_STATUS_CHANGED;
+        };
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        metadata.put("status", status.name());
+        String normalizedReason = normalizeReason(reason);
+        if (normalizedReason != null) {
+            metadata.put("reason", normalizedReason);
+        }
+        auditRecorder.record(action, "ORDER", order.getPublicId(), metadata);
     }
 
     OrderSummaryResponse toSummary(SalesOrder order) {

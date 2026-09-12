@@ -1,5 +1,7 @@
 package com.commerceops.admin.catalog.service;
 
+import com.commerceops.admin.audit.model.AuditAction;
+import com.commerceops.admin.audit.service.AuditRecorder;
 import com.commerceops.admin.catalog.dto.CategoryRequest;
 import com.commerceops.admin.catalog.dto.CategoryResponse;
 import com.commerceops.admin.catalog.model.Category;
@@ -11,6 +13,7 @@ import com.commerceops.admin.common.error.DuplicateResourceException;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
 import com.commerceops.admin.common.pagination.PageResponse;
 import com.commerceops.admin.common.security.CurrentUserProvider;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,15 +25,18 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final CurrentUserProvider currentUserProvider;
+    private final AuditRecorder auditRecorder;
 
     public CategoryService(
             CategoryRepository categoryRepository,
             ProductRepository productRepository,
-            CurrentUserProvider currentUserProvider
+            CurrentUserProvider currentUserProvider,
+            AuditRecorder auditRecorder
     ) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.currentUserProvider = currentUserProvider;
+        this.auditRecorder = auditRecorder;
     }
 
     @Transactional
@@ -47,7 +53,14 @@ public class CategoryService {
                 parent
         );
 
-        return toResponse(categoryRepository.save(category));
+        Category savedCategory = categoryRepository.save(category);
+        auditRecorder.record(
+                AuditAction.CATEGORY_CREATED,
+                "CATEGORY",
+                savedCategory.getPublicId(),
+                Map.of("slug", savedCategory.getSlug(), "status", savedCategory.getStatus().name())
+        );
+        return toResponse(savedCategory);
     }
 
     @Transactional(readOnly = true)
@@ -79,6 +92,13 @@ public class CategoryService {
                 parent
         );
 
+        auditRecorder.record(
+                AuditAction.CATEGORY_UPDATED,
+                "CATEGORY",
+                category.getPublicId(),
+                Map.of("slug", category.getSlug(), "status", category.getStatus().name())
+        );
+
         return toResponse(category);
     }
 
@@ -89,6 +109,12 @@ public class CategoryService {
             throw new BusinessRuleException("Category cannot be deleted because it has active products.");
         }
         category.markDeleted(currentUserProvider.currentUser().id());
+        auditRecorder.record(
+                AuditAction.CATEGORY_DELETED,
+                "CATEGORY",
+                category.getPublicId(),
+                Map.of("slug", category.getSlug())
+        );
     }
 
     private Category findActive(UUID publicId) {

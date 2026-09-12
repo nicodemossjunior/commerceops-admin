@@ -1,5 +1,7 @@
 package com.commerceops.admin.customers.service;
 
+import com.commerceops.admin.audit.model.AuditAction;
+import com.commerceops.admin.audit.service.AuditRecorder;
 import com.commerceops.admin.common.error.DuplicateResourceException;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
 import com.commerceops.admin.common.pagination.PageResponse;
@@ -13,6 +15,7 @@ import com.commerceops.admin.customers.repository.CustomerRepository;
 import com.commerceops.admin.customers.repository.CustomerSpecifications;
 import com.commerceops.admin.orders.repository.SalesOrderRepository;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,15 +27,18 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final CurrentUserProvider currentUserProvider;
     private final SalesOrderRepository salesOrderRepository;
+    private final AuditRecorder auditRecorder;
 
     public CustomerService(
             CustomerRepository customerRepository,
             CurrentUserProvider currentUserProvider,
-            SalesOrderRepository salesOrderRepository
+            SalesOrderRepository salesOrderRepository,
+            AuditRecorder auditRecorder
     ) {
         this.customerRepository = customerRepository;
         this.currentUserProvider = currentUserProvider;
         this.salesOrderRepository = salesOrderRepository;
+        this.auditRecorder = auditRecorder;
     }
 
     @Transactional
@@ -46,7 +52,14 @@ public class CustomerService {
                 normalizeOptional(request.document()),
                 request.status()
         );
-        return toResponse(customerRepository.save(customer));
+        Customer savedCustomer = customerRepository.save(customer);
+        auditRecorder.record(
+                AuditAction.CUSTOMER_CREATED,
+                "CUSTOMER",
+                savedCustomer.getPublicId(),
+                Map.of("status", savedCustomer.getStatus().name())
+        );
+        return toResponse(savedCustomer);
     }
 
     @Transactional(readOnly = true)
@@ -73,6 +86,12 @@ public class CustomerService {
                 normalizeOptional(request.document()),
                 request.status()
         );
+        auditRecorder.record(
+                AuditAction.CUSTOMER_UPDATED,
+                "CUSTOMER",
+                customer.getPublicId(),
+                Map.of("status", customer.getStatus().name())
+        );
         return toResponse(customer);
     }
 
@@ -80,6 +99,7 @@ public class CustomerService {
     public void delete(UUID publicId) {
         Customer customer = findActive(publicId);
         customer.markDeleted(currentUserProvider.currentUser().id());
+        auditRecorder.record(AuditAction.CUSTOMER_DELETED, "CUSTOMER", customer.getPublicId(), Map.of());
     }
 
     @Transactional(readOnly = true)

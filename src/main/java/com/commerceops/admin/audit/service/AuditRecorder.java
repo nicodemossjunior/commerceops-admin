@@ -36,10 +36,13 @@ public class AuditRecorder {
             AuditAction action,
             String entityType,
             UUID entityPublicId,
-            Map<String, ?> metadata
+        Map<String, ?> metadata
     ) {
         try {
             CurrentUser actor = currentUserProvider.currentUser();
+            if (actor == null) {
+                return;
+            }
             recordInternal(actor.id(), actor.email(), action, entityType, entityPublicId, metadata);
         } catch (RuntimeException exception) {
             logFailure(action, exception);

@@ -1,5 +1,7 @@
 package com.commerceops.admin.auth.service;
 
+import com.commerceops.admin.audit.model.AuditAction;
+import com.commerceops.admin.audit.service.AuditRecorder;
 import com.commerceops.admin.auth.dto.AuthUserResponse;
 import com.commerceops.admin.auth.dto.LoginRequest;
 import com.commerceops.admin.auth.dto.LoginResponse;
@@ -7,6 +9,7 @@ import com.commerceops.admin.auth.model.AdminUser;
 import com.commerceops.admin.auth.repository.AdminUserRepository;
 import com.commerceops.admin.auth.security.JwtService;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
+import java.util.Map;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,26 +22,47 @@ public class AuthService {
     private final AdminUserRepository adminUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuditRecorder auditRecorder;
 
     public AuthService(
             AdminUserRepository adminUserRepository,
             PasswordEncoder passwordEncoder,
-            JwtService jwtService
+            JwtService jwtService,
+            AuditRecorder auditRecorder
     ) {
         this.adminUserRepository = adminUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.auditRecorder = auditRecorder;
     }
 
     @Transactional
     public LoginResponse login(LoginRequest request) {
-        AdminUser user = adminUserRepository.findByEmailIgnoreCase(request.email())
-                .filter(AdminUser::canAuthenticate)
-                .filter(candidate -> passwordEncoder.matches(request.password(), candidate.getPasswordHash()))
-                .orElseThrow(AuthenticationFailedException::new);
+        AdminUser user = adminUserRepository.findByEmailIgnoreCase(request.email()).orElse(null);
+        if (user == null
+                || !user.canAuthenticate()
+                || !passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+            auditRecorder.recordAs(
+                    user == null ? null : user.getId(),
+                    request.email(),
+                    AuditAction.AUTH_LOGIN_FAILURE,
+                    "ADMIN_USER",
+                    user == null ? null : user.getPublicId(),
+                    Map.of("result", "INVALID_CREDENTIALS")
+            );
+            throw new AuthenticationFailedException();
+        }
 
         user.recordLogin();
         String accessToken = jwtService.generateToken(user);
+        auditRecorder.recordAs(
+                user.getId(),
+                user.getEmail(),
+                AuditAction.AUTH_LOGIN_SUCCESS,
+                "ADMIN_USER",
+                user.getPublicId(),
+                Map.of("result", "SUCCESS")
+        );
 
         return new LoginResponse(accessToken, BEARER, jwtService.accessTokenTtlSeconds(), AuthMapper.toResponse(user));
     }

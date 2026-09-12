@@ -1,5 +1,7 @@
 package com.commerceops.admin.catalog.service;
 
+import com.commerceops.admin.audit.model.AuditAction;
+import com.commerceops.admin.audit.service.AuditRecorder;
 import com.commerceops.admin.catalog.dto.ProductRequest;
 import com.commerceops.admin.catalog.dto.ProductResponse;
 import com.commerceops.admin.catalog.dto.ProductFilter;
@@ -14,6 +16,7 @@ import com.commerceops.admin.common.error.ResourceNotFoundException;
 import com.commerceops.admin.common.pagination.PageResponse;
 import com.commerceops.admin.common.security.CurrentUserProvider;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,15 +28,18 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final CurrentUserProvider currentUserProvider;
+    private final AuditRecorder auditRecorder;
 
     public ProductService(
             ProductRepository productRepository,
             CategoryRepository categoryRepository,
-            CurrentUserProvider currentUserProvider
+            CurrentUserProvider currentUserProvider,
+            AuditRecorder auditRecorder
     ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.currentUserProvider = currentUserProvider;
+        this.auditRecorder = auditRecorder;
     }
 
     @Transactional
@@ -54,7 +60,14 @@ public class ProductService {
                 request.status()
         );
 
-        return toResponse(productRepository.save(product));
+        Product savedProduct = productRepository.save(product);
+        auditRecorder.record(
+                AuditAction.PRODUCT_CREATED,
+                "PRODUCT",
+                savedProduct.getPublicId(),
+                Map.of("sku", savedProduct.getSku(), "status", savedProduct.getStatus().name())
+        );
+        return toResponse(savedProduct);
     }
 
     @Transactional(readOnly = true)
@@ -89,6 +102,13 @@ public class ProductService {
                 request.status()
         );
 
+        auditRecorder.record(
+                AuditAction.PRODUCT_UPDATED,
+                "PRODUCT",
+                product.getPublicId(),
+                Map.of("sku", product.getSku(), "status", product.getStatus().name())
+        );
+
         return toResponse(product);
     }
 
@@ -96,6 +116,12 @@ public class ProductService {
     public void delete(UUID publicId) {
         Product product = findActive(publicId);
         product.markDeleted(currentUserProvider.currentUser().id());
+        auditRecorder.record(
+                AuditAction.PRODUCT_DELETED,
+                "PRODUCT",
+                product.getPublicId(),
+                Map.of("sku", product.getSku())
+        );
     }
 
     private void validatePriceRange(ProductFilter filter) {

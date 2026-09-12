@@ -1,5 +1,7 @@
 package com.commerceops.admin.coupons.service;
 
+import com.commerceops.admin.audit.model.AuditAction;
+import com.commerceops.admin.audit.service.AuditRecorder;
 import com.commerceops.admin.common.error.BusinessRuleException;
 import com.commerceops.admin.common.error.DuplicateResourceException;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
@@ -13,6 +15,7 @@ import com.commerceops.admin.coupons.repository.CouponRepository;
 import com.commerceops.admin.coupons.repository.CouponSpecifications;
 import java.time.Instant;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,10 +26,16 @@ public class CouponService {
 
     private final CouponRepository couponRepository;
     private final CurrentUserProvider currentUserProvider;
+    private final AuditRecorder auditRecorder;
 
-    public CouponService(CouponRepository couponRepository, CurrentUserProvider currentUserProvider) {
+    public CouponService(
+            CouponRepository couponRepository,
+            CurrentUserProvider currentUserProvider,
+            AuditRecorder auditRecorder
+    ) {
         this.couponRepository = couponRepository;
         this.currentUserProvider = currentUserProvider;
+        this.auditRecorder = auditRecorder;
     }
 
     @Transactional
@@ -44,7 +53,14 @@ public class CouponService {
                 request.perCustomerLimit(),
                 request.status()
         );
-        return toResponse(couponRepository.save(coupon));
+        Coupon savedCoupon = couponRepository.save(coupon);
+        auditRecorder.record(
+                AuditAction.COUPON_CREATED,
+                "COUPON",
+                savedCoupon.getPublicId(),
+                Map.of("code", savedCoupon.getCode(), "status", savedCoupon.getStatus().name())
+        );
+        return toResponse(savedCoupon);
     }
 
     @Transactional(readOnly = true)
@@ -77,6 +93,12 @@ public class CouponService {
                 request.perCustomerLimit(),
                 request.status()
         );
+        auditRecorder.record(
+                AuditAction.COUPON_UPDATED,
+                "COUPON",
+                coupon.getPublicId(),
+                Map.of("code", coupon.getCode(), "status", coupon.getStatus().name())
+        );
         return toResponse(coupon);
     }
 
@@ -88,6 +110,12 @@ public class CouponService {
             throw new BusinessRuleException("Expired coupon cannot be activated.");
         }
         coupon.activate();
+        auditRecorder.record(
+                AuditAction.COUPON_ACTIVATED,
+                "COUPON",
+                coupon.getPublicId(),
+                Map.of("code", coupon.getCode())
+        );
         return toResponse(coupon, now);
     }
 
@@ -95,6 +123,12 @@ public class CouponService {
     public CouponResponse deactivate(UUID publicId) {
         Coupon coupon = findActive(publicId);
         coupon.deactivate();
+        auditRecorder.record(
+                AuditAction.COUPON_DEACTIVATED,
+                "COUPON",
+                coupon.getPublicId(),
+                Map.of("code", coupon.getCode())
+        );
         return toResponse(coupon);
     }
 
@@ -102,6 +136,12 @@ public class CouponService {
     public void delete(UUID publicId) {
         Coupon coupon = findActive(publicId);
         coupon.markDeleted(currentUserProvider.currentUser().id());
+        auditRecorder.record(
+                AuditAction.COUPON_DELETED,
+                "COUPON",
+                coupon.getPublicId(),
+                Map.of("code", coupon.getCode())
+        );
     }
 
     private Coupon findActive(UUID publicId) {
