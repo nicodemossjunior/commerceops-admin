@@ -17,6 +17,30 @@ management:
     web:
       exposure:
         include: health,info
+  endpoint:
+    health:
+      show-details: never
+  metrics:
+    tags:
+      service: ${spring.application.name}
+      environment: ${APP_ENVIRONMENT:local}
+  tracing:
+    enabled: ${OTEL_TRACING_ENABLED:false}
+    sampling:
+      probability: ${OTEL_TRACES_SAMPLER_PROBABILITY:0.10}
+
+commerceops:
+  observability:
+    otel:
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318}
+      protocol: ${OTEL_EXPORTER_OTLP_PROTOCOL:http/protobuf}
+  dashboard:
+    low-stock-threshold: ${DASHBOARD_LOW_STOCK_THRESHOLD:10}
+  security:
+    jwt:
+      issuer: ${JWT_ISSUER:commerceops-admin}
+      secret: ${JWT_SECRET:change-me-in-local-environment}
+      access-token-ttl-seconds: ${JWT_ACCESS_TOKEN_TTL_SECONDS:3600}
 
 logging:
   level:
@@ -33,12 +57,3 @@ logging:
         environment: ${APP_ENVIRONMENT:local}
       rename:
         "@timestamp": timestamp
-
-commerceops:
-  dashboard:
-    low-stock-threshold: ${DASHBOARD_LOW_STOCK_THRESHOLD:10}
-  security:
-    jwt:
-      issuer: ${JWT_ISSUER:commerceops-admin}
-      secret: ${JWT_SECRET:change-me-in-local-environment}
-      access-token-ttl-seconds: ${JWT_ACCESS_TOKEN_TTL_SECONDS:3600}

@@ -9,6 +9,7 @@ import com.commerceops.admin.auth.model.AdminUser;
 import com.commerceops.admin.auth.repository.AdminUserRepository;
 import com.commerceops.admin.auth.security.JwtService;
 import com.commerceops.admin.common.error.ResourceNotFoundException;
+import com.commerceops.admin.observability.CommerceOpsMetrics;
 import java.util.Map;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,20 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuditRecorder auditRecorder;
+    private final CommerceOpsMetrics metrics;
 
     public AuthService(
             AdminUserRepository adminUserRepository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService,
-            AuditRecorder auditRecorder
+            AuditRecorder auditRecorder,
+            CommerceOpsMetrics metrics
     ) {
         this.adminUserRepository = adminUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.auditRecorder = auditRecorder;
+        this.metrics = metrics;
     }
 
     @Transactional
@@ -42,6 +46,7 @@ public class AuthService {
         if (user == null
                 || !user.canAuthenticate()
                 || !passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+            metrics.recordLoginFailure();
             auditRecorder.recordAs(
                     user == null ? null : user.getId(),
                     request.email(),
@@ -55,6 +60,7 @@ public class AuthService {
 
         user.recordLogin();
         String accessToken = jwtService.generateToken(user);
+        metrics.recordLoginSuccess();
         auditRecorder.recordAs(
                 user.getId(),
                 user.getEmail(),

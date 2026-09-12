@@ -18,6 +18,8 @@ public interface SalesOrderRepository extends JpaRepository<SalesOrder, Long>, J
 
     Page<SalesOrder> findAllByCustomerIdAndDeletedFalse(Long customerId, Pageable pageable);
 
+    long countByStatusAndDeletedFalse(OrderStatus status);
+
     @Query("""
             SELECT
                 COALESCE(SUM(CASE WHEN o.status <> :cancelledStatus THEN o.totalAmount ELSE 0 END), 0)

@@ -6,25 +6,25 @@
 - [x] Add request correlation filter.
 - [x] Add trace ID to global error responses.
 - [x] Add safe log redaction utility.
-- [ ] Configure Spring Boot Actuator.
-- [ ] Configure Micrometer metrics.
-- [ ] Add domain metric counters where useful.
-- [ ] Prepare OpenTelemetry configuration placeholders.
+- [x] Configure Spring Boot Actuator.
+- [x] Configure Micrometer metrics.
+- [x] Add domain metric counters where useful.
+- [x] Prepare OpenTelemetry configuration placeholders.
 
 ## Configuration
 
-- [ ] Configure actuator exposure per profile.
+- [x] Configure actuator exposure per profile.
 - [x] Configure service name.
 - [x] Configure environment name.
 - [x] Configure log level defaults.
-- [ ] Configure local metrics endpoint.
+- [x] Configure local metrics endpoint.
 
 ## Tests
 
 - [x] Test correlation ID generation.
 - [x] Test trace ID appears in error response.
 - [x] Test sensitive values are not logged by helper utilities.
-- [ ] Test actuator health endpoint availability in local profile.
+- [x] Test actuator health endpoint availability in local profile.
 
 ## Documentation
 
