@@ -35,7 +35,7 @@
 
 ## Validation
 
-- [ ] Run unit tests.
-- [ ] Run controller tests.
-- [ ] Run repository integration tests.
-- [ ] Run migration validation.
+- [x] Run unit tests.
+- [x] Run controller tests.
+- [x] Run repository integration tests.
+- [x] Run migration validation.
