@@ -2,10 +2,10 @@
 
 ## Backend
 
-- [ ] Configure structured logging.
-- [ ] Add request correlation filter.
-- [ ] Add trace ID to global error responses.
-- [ ] Add safe log redaction utility.
+- [x] Configure structured logging.
+- [x] Add request correlation filter.
+- [x] Add trace ID to global error responses.
+- [x] Add safe log redaction utility.
 - [ ] Configure Spring Boot Actuator.
 - [ ] Configure Micrometer metrics.
 - [ ] Add domain metric counters where useful.
@@ -14,16 +14,16 @@
 ## Configuration
 
 - [ ] Configure actuator exposure per profile.
-- [ ] Configure service name.
-- [ ] Configure environment name.
-- [ ] Configure log level defaults.
+- [x] Configure service name.
+- [x] Configure environment name.
+- [x] Configure log level defaults.
 - [ ] Configure local metrics endpoint.
 
 ## Tests
 
-- [ ] Test correlation ID generation.
-- [ ] Test trace ID appears in error response.
-- [ ] Test sensitive values are not logged by helper utilities.
+- [x] Test correlation ID generation.
+- [x] Test trace ID appears in error response.
+- [x] Test sensitive values are not logged by helper utilities.
 - [ ] Test actuator health endpoint availability in local profile.
 
 ## Documentation
@@ -38,4 +38,3 @@
 - [ ] Run unit tests.
 - [ ] Run application context tests.
 - [ ] Manually verify local actuator health endpoint after backend exists.
-

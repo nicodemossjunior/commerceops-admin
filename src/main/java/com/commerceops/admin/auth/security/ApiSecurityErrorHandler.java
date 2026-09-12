@@ -2,6 +2,7 @@ package com.commerceops.admin.auth.security;
 
 import com.commerceops.admin.common.error.ApiErrorCode;
 import com.commerceops.admin.common.error.ApiErrorResponse;
+import com.commerceops.admin.observability.CorrelationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,8 +17,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ApiSecurityErrorHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
-
-    private static final String TRACE_ID_HEADER = "X-Trace-Id";
 
     private final ObjectMapper objectMapper;
 
@@ -63,7 +62,6 @@ public class ApiSecurityErrorHandler implements AuthenticationEntryPoint, Access
     }
 
     private String traceId(HttpServletRequest request) {
-        String traceId = request.getHeader(TRACE_ID_HEADER);
-        return traceId == null || traceId.isBlank() ? null : traceId;
+        return CorrelationContext.traceId(request);
     }
 }

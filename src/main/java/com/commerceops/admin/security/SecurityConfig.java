@@ -3,7 +3,9 @@ package com.commerceops.admin.security;
 import com.commerceops.admin.auth.security.ApiSecurityErrorHandler;
 import com.commerceops.admin.auth.security.JwtAuthenticationFilter;
 import com.commerceops.admin.auth.security.JwtProperties;
+import com.commerceops.admin.observability.CorrelationIdFilter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,6 +30,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             JwtAuthenticationFilter jwtAuthenticationFilter,
+            CorrelationIdFilter correlationIdFilter,
             ApiSecurityErrorHandler apiSecurityErrorHandler
     ) throws Exception {
         return http
@@ -49,12 +52,22 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(correlationIdFilter, JwtAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    FilterRegistrationBean<CorrelationIdFilter> correlationIdFilterRegistration(
+            CorrelationIdFilter correlationIdFilter
+    ) {
+        FilterRegistrationBean<CorrelationIdFilter> registration = new FilterRegistrationBean<>(correlationIdFilter);
+        registration.setEnabled(false);
+        return registration;
     }
 
     @Bean

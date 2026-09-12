@@ -18,6 +18,22 @@ management:
       exposure:
         include: health,info
 
+logging:
+  level:
+    root: ${ROOT_LOG_LEVEL:INFO}
+    com.commerceops.admin: ${APPLICATION_LOG_LEVEL:INFO}
+  structured:
+    format:
+      console: ${CONSOLE_LOG_FORMAT:logstash}
+    json:
+      context:
+        include: true
+      add:
+        service: ${spring.application.name}
+        environment: ${APP_ENVIRONMENT:local}
+      rename:
+        "@timestamp": timestamp
+
 commerceops:
   dashboard:
     low-stock-threshold: ${DASHBOARD_LOW_STOCK_THRESHOLD:10}

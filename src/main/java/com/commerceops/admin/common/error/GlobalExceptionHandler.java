@@ -1,6 +1,7 @@
 package com.commerceops.admin.common.error;
 
 import com.commerceops.admin.auth.service.AuthenticationFailedException;
+import com.commerceops.admin.observability.CorrelationContext;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    private static final String TRACE_ID_HEADER = "X-Trace-Id";
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> handleValidation(
@@ -123,7 +122,6 @@ public class GlobalExceptionHandler {
     }
 
     private String traceId(HttpServletRequest request) {
-        String traceId = request.getHeader(TRACE_ID_HEADER);
-        return traceId == null || traceId.isBlank() ? null : traceId;
+        return CorrelationContext.traceId(request);
     }
 }

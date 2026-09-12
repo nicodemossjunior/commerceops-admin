@@ -1,5 +1,6 @@
 package com.commerceops.admin.audit.service;
 
+import com.commerceops.admin.observability.CorrelationContext;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -8,8 +9,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class AuditRequestContext {
 
-    private static final String TRACE_ID_HEADER = "X-Trace-Id";
-
     public RequestDetails current() {
         if (!(RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes attributes)) {
             return new RequestDetails(null, null, null);
@@ -17,7 +16,7 @@ public class AuditRequestContext {
 
         HttpServletRequest request = attributes.getRequest();
         return new RequestDetails(
-                trimToLength(request.getHeader(TRACE_ID_HEADER), 100),
+                trimToLength(CorrelationContext.traceId(request), 100),
                 trimToLength(request.getMethod(), 20),
                 trimToLength(request.getRequestURI(), 1000)
         );
