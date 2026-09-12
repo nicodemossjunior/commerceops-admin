@@ -4,14 +4,14 @@
 
 - [x] Create `AuditLog` entity.
 - [x] Create audit action enum.
-- [ ] Create audit service.
+- [x] Create audit service.
 - [x] Create audit repository.
-- [ ] Create audit response DTOs.
-- [ ] Create audit controller.
-- [ ] Add audit filtering and pagination.
-- [ ] Add helper for recording domain actions.
-- [ ] Add metadata redaction utility.
-- [ ] Add trace ID support when available.
+- [x] Create audit response DTOs.
+- [x] Create audit controller.
+- [x] Add audit filtering and pagination.
+- [x] Add helper for recording domain actions.
+- [x] Add metadata redaction utility.
+- [x] Add trace ID support when available.
 
 ## Database And Flyway
 
@@ -21,10 +21,10 @@
 
 ## Tests
 
-- [ ] Test audit record creation.
-- [ ] Test audit listing filters.
-- [ ] Test audit detail lookup.
-- [ ] Test secret redaction.
+- [x] Test audit record creation.
+- [x] Test audit listing filters.
+- [x] Test audit detail lookup.
+- [x] Test secret redaction.
 - [ ] Test role-based access.
 
 ## Documentation

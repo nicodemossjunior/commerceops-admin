@@ -1,5 +1,6 @@
 package com.commerceops.admin.audit.model;
 
+import com.commerceops.admin.auth.model.AdminUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.Instant;
@@ -25,6 +29,10 @@ public class AuditLog {
 
     @Column(name = "actor_user_id", updatable = false)
     private Long actorUserId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "actor_user_id", insertable = false, updatable = false)
+    private AdminUser actorUser;
 
     @Column(name = "actor_email", length = 190, updatable = false)
     private String actorEmail;
@@ -99,6 +107,10 @@ public class AuditLog {
 
     public Long getActorUserId() {
         return actorUserId;
+    }
+
+    public AdminUser getActorUser() {
+        return actorUser;
     }
 
     public String getActorEmail() {
