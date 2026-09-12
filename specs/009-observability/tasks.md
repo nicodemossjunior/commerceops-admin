@@ -28,10 +28,10 @@
 
 ## Documentation
 
-- [ ] Document local actuator endpoints.
-- [ ] Document structured log fields.
-- [ ] Document sensitive data logging rules.
-- [ ] Document future OpenTelemetry setup path.
+- [x] Document local actuator endpoints.
+- [x] Document structured log fields.
+- [x] Document sensitive data logging rules.
+- [x] Document future OpenTelemetry setup path.
 
 ## Validation
 

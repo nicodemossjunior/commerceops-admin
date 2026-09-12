@@ -88,6 +88,14 @@ Important environment variables:
 - `JWT_ISSUER`
 - `JWT_SECRET`
 - `JWT_ACCESS_TOKEN_TTL_SECONDS`
+- `APP_ENVIRONMENT`
+- `ROOT_LOG_LEVEL`
+- `APPLICATION_LOG_LEVEL`
+- `CONSOLE_LOG_FORMAT`
+- `OTEL_TRACING_ENABLED`
+- `OTEL_TRACES_SAMPLER_PROBABILITY`
+- `OTEL_EXPORTER_OTLP_ENDPOINT`
+- `OTEL_EXPORTER_OTLP_PROTOCOL`
 
 Copy `.env.example` to `.env` when you want to override local defaults.
 
@@ -132,6 +140,10 @@ V002__create_admin_users_and_roles.sql
 V003__create_categories_table.sql
 V004__create_products_table.sql
 ```
+
+## Observability
+
+Local Actuator endpoints, structured log fields, correlation headers, sensitive-data rules, application metrics, and the future OpenTelemetry path are documented in [`docs/observability.md`](docs/observability.md).
 
 ## Tests
 
