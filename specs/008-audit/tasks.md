@@ -25,13 +25,13 @@
 - [x] Test audit listing filters.
 - [x] Test audit detail lookup.
 - [x] Test secret redaction.
-- [ ] Test role-based access.
+- [x] Test role-based access.
 
 ## Documentation
 
-- [ ] Document audit endpoints in OpenAPI.
-- [ ] Document audited action values.
-- [ ] Document metadata redaction rules.
+- [x] Document audit endpoints in OpenAPI.
+- [x] Document audited action values.
+- [x] Document metadata redaction rules.
 
 ## Validation
 
