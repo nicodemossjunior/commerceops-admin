@@ -11,16 +11,16 @@
 
 ## Documentation
 
-- [ ] Document authentication endpoints.
-- [ ] Document catalog endpoints.
-- [ ] Document customer endpoints.
-- [ ] Document order endpoints.
-- [ ] Document coupon endpoints.
-- [ ] Document dashboard endpoint.
-- [ ] Document audit endpoints.
-- [ ] Document standard error codes.
-- [ ] Document status enums.
-- [ ] Document filtering and pagination conventions.
+- [x] Document authentication endpoints.
+- [x] Document catalog endpoints.
+- [x] Document customer endpoints.
+- [x] Document order endpoints.
+- [x] Document coupon endpoints.
+- [x] Document dashboard endpoint.
+- [x] Document audit endpoints.
+- [x] Document standard error codes.
+- [x] Document status enums.
+- [x] Document filtering and pagination conventions.
 
 ## Tests
 

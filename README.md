@@ -145,6 +145,10 @@ V004__create_products_table.sql
 
 Local Actuator endpoints, structured log fields, correlation headers, sensitive-data rules, application metrics, and the future OpenTelemetry path are documented in [`docs/observability.md`](docs/observability.md).
 
+## API Documentation
+
+OpenAPI access, authentication, roles, pagination, filters, status enums, and standard errors are documented in [`docs/api.md`](docs/api.md).
+
 ## Tests
 
 Run the test suite with:
