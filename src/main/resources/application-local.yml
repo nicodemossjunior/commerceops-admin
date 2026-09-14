@@ -25,6 +25,10 @@ management:
     health:
       show-details: when-authorized
 
+springdoc:
+  swagger-ui:
+    enabled: true
+
 logging:
   level:
     com.commerceops.admin: ${APPLICATION_LOG_LEVEL:INFO}

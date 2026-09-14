@@ -2,12 +2,12 @@
 
 ## Backend
 
-- [ ] Add OpenAPI configuration.
-- [ ] Configure API title, description, and version.
-- [ ] Configure JWT Bearer security scheme.
-- [ ] Configure global error schema.
-- [ ] Configure pagination schema or examples.
-- [ ] Add endpoint tags by domain.
+- [x] Add OpenAPI configuration.
+- [x] Configure API title, description, and version.
+- [x] Configure JWT Bearer security scheme.
+- [x] Configure global error schema.
+- [x] Configure pagination schema or examples.
+- [x] Add endpoint tags by domain.
 
 ## Documentation
 
@@ -34,4 +34,3 @@
 - [ ] Run application context tests.
 - [ ] Review generated OpenAPI output.
 - [ ] Confirm examples are in English.
-
