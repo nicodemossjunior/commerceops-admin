@@ -18,7 +18,7 @@ The project must be developed in English across code, API contracts, validation 
 | 007 | [Dashboard](007-dashboard/spec.md) | completed | Operational summary metrics for revenue, orders, customers, inventory, and cancellations. |
 | 008 | [Audit](008-audit/spec.md) | completed | Audit trail for sensitive actions and relevant domain changes. |
 | 009 | [Observability](009-observability/spec.md) | completed | Structured logs, request correlation, metrics, actuator exposure, and tracing readiness. |
-| 010 | [API Documentation](010-api-documentation/spec.md) | planned | OpenAPI documentation, API examples, error documentation, and endpoint discoverability. |
+| 010 | [API Documentation](010-api-documentation/spec.md) | completed | OpenAPI documentation, API examples, error documentation, and endpoint discoverability. |
 | 011 | [CI Pipeline](011-ci-pipeline/spec.md) | planned | Build, test, integration test, static analysis, and future Docker image steps. |
 
 ## Global Decisions

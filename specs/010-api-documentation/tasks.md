@@ -31,6 +31,6 @@
 
 ## Validation
 
-- [ ] Run application context tests.
-- [ ] Review generated OpenAPI output.
-- [ ] Confirm examples are in English.
+- [x] Run application context tests.
+- [x] Review generated OpenAPI output.
+- [x] Confirm examples are in English.
