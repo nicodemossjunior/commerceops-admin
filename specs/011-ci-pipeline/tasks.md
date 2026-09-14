@@ -33,6 +33,6 @@
 
 ## Validation
 
-- [ ] Run the CI-equivalent Maven commands locally.
-- [ ] Confirm CI does not require secrets for normal validation.
-- [ ] Confirm workflow is readable for portfolio review.
+- [x] Run the CI-equivalent Maven commands locally.
+- [x] Confirm CI does not require secrets for normal validation.
+- [x] Confirm workflow is readable for portfolio review.

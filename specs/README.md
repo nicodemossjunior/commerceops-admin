@@ -19,7 +19,7 @@ The project must be developed in English across code, API contracts, validation 
 | 008 | [Audit](008-audit/spec.md) | completed | Audit trail for sensitive actions and relevant domain changes. |
 | 009 | [Observability](009-observability/spec.md) | completed | Structured logs, request correlation, metrics, actuator exposure, and tracing readiness. |
 | 010 | [API Documentation](010-api-documentation/spec.md) | completed | OpenAPI documentation, API examples, error documentation, and endpoint discoverability. |
-| 011 | [CI Pipeline](011-ci-pipeline/spec.md) | planned | Build, test, integration test, static analysis, and future Docker image steps. |
+| 011 | [CI Pipeline](011-ci-pipeline/spec.md) | completed | Build, test, integration test, static analysis, and future Docker image steps. |
 
 ## Global Decisions
 
