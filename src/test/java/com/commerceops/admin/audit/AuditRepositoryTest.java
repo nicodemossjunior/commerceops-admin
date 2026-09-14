@@ -7,7 +7,6 @@ import com.commerceops.admin.audit.model.AuditAction;
 import com.commerceops.admin.audit.model.AuditLog;
 import com.commerceops.admin.audit.repository.AuditLogRepository;
 import com.commerceops.admin.audit.repository.AuditLogSpecifications;
-import java.time.Instant;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

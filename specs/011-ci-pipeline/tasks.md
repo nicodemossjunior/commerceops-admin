@@ -17,7 +17,7 @@
 
 - [ ] Ensure CI environment supports Docker for Testcontainers.
 - [ ] Document Testcontainers requirements.
-- [ ] Separate unit and integration test phases if needed.
+- [x] Separate unit and integration test phases if needed.
 
 ## Future Docker Build
 
@@ -36,4 +36,3 @@
 - [ ] Run the CI-equivalent Maven commands locally.
 - [ ] Confirm CI does not require secrets for normal validation.
 - [ ] Confirm workflow is readable for portfolio review.
-
