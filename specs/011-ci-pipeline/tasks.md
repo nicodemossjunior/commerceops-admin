@@ -2,28 +2,28 @@
 
 ## CI Configuration
 
-- [ ] Create CI workflow file.
-- [ ] Configure trigger for pull requests.
-- [ ] Configure trigger for pushes to main.
-- [ ] Set up Java 21.
-- [ ] Configure Maven dependency cache.
-- [ ] Run Maven compile.
-- [ ] Run unit tests.
-- [ ] Run integration tests when available.
-- [ ] Run package build.
-- [ ] Add static analysis step if selected.
+- [x] Create CI workflow file.
+- [x] Configure trigger for pull requests.
+- [x] Configure trigger for pushes to main.
+- [x] Set up Java 21.
+- [x] Configure Maven dependency cache.
+- [x] Run Maven compile.
+- [x] Run unit tests.
+- [x] Run integration tests when available.
+- [x] Run package build.
+- [x] Add static analysis step if selected.
 
 ## Testcontainers
 
-- [ ] Ensure CI environment supports Docker for Testcontainers.
+- [x] Ensure CI environment supports Docker for Testcontainers.
 - [ ] Document Testcontainers requirements.
 - [x] Separate unit and integration test phases if needed.
 
 ## Future Docker Build
 
-- [ ] Reserve stage for Docker image build.
+- [x] Reserve stage for Docker image build.
 - [ ] Document future container registry requirements.
-- [ ] Keep Docker publishing disabled until deployment strategy is defined.
+- [x] Keep Docker publishing disabled until deployment strategy is defined.
 
 ## Documentation
 
