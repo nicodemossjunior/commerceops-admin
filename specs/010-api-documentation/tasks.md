@@ -24,10 +24,10 @@
 
 ## Tests
 
-- [ ] Verify OpenAPI JSON is generated.
-- [ ] Verify Swagger UI loads in local profile.
-- [ ] Verify JWT security scheme appears in OpenAPI.
-- [ ] Verify standard error schema appears in OpenAPI.
+- [x] Verify OpenAPI JSON is generated.
+- [x] Verify Swagger UI loads in local profile.
+- [x] Verify JWT security scheme appears in OpenAPI.
+- [x] Verify standard error schema appears in OpenAPI.
 
 ## Validation
 

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,7 +53,7 @@ public class CustomerController {
             @RequestParam(required = false) String phone,
             @Parameter(description = "Customer status")
             @RequestParam(required = false) CustomerStatus status,
-            Pageable pageable
+            @ParameterObject Pageable pageable
     ) {
         return customerService.list(new CustomerFilter(name, email, phone, status), pageable);
     }
@@ -98,7 +99,7 @@ public class CustomerController {
     )
     public PageResponse<CustomerOrderSummaryResponse> purchaseHistory(
             @PathVariable UUID publicId,
-            Pageable pageable
+            @ParameterObject Pageable pageable
     ) {
         return customerService.purchaseHistory(publicId, pageable);
     }

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,7 +39,7 @@ public class CustomerNoteController {
     @Operation(summary = "List internal customer notes")
     public PageResponse<CustomerNoteResponse> list(
             @PathVariable UUID customerPublicId,
-            Pageable pageable
+            @ParameterObject Pageable pageable
     ) {
         return customerNoteService.list(customerPublicId, pageable);
     }

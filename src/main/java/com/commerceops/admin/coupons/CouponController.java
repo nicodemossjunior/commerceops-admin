@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.time.Instant;
 import java.util.UUID;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class CouponController {
             @RequestParam(required = false) DiscountType discountType,
             @Parameter(description = "Timestamp at which the coupon must be eligible for use")
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant activeAt,
-            Pageable pageable
+            @ParameterObject Pageable pageable
     ) {
         return couponService.list(new CouponFilter(code, status, discountType, activeAt), pageable);
     }

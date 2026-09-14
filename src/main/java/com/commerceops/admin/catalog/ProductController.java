@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.util.UUID;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +57,7 @@ public class ProductController {
             @Parameter(description = "Inclusive maximum price") @RequestParam(required = false) BigDecimal maxPrice,
             @Parameter(description = "True for stock at or below 10; false for stock above 10")
             @RequestParam(required = false) Boolean lowStock,
-            Pageable pageable
+            @ParameterObject Pageable pageable
     ) {
         return productService.list(
                 new ProductFilter(categoryId, status, sku, name, minPrice, maxPrice, lowStock),

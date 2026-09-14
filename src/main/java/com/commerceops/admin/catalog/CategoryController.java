@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.UUID;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,7 +40,7 @@ public class CategoryController {
     @GetMapping
     @Operation(summary = "List categories", description = "Returns non-deleted categories using pagination.")
     @PreAuthorize(READ_ROLES)
-    public PageResponse<CategoryResponse> list(Pageable pageable) {
+    public PageResponse<CategoryResponse> list(@ParameterObject Pageable pageable) {
         return categoryService.list(pageable);
     }
 
