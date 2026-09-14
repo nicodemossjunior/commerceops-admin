@@ -164,6 +164,8 @@ The test suite currently includes:
 - Flyway migration validation test.
 - Authentication and authorization tests for login, JWT-protected endpoints, disabled or deleted users, invalid tokens, and insufficient roles.
 
+The GitHub Actions pipeline, local CI-equivalent command, Testcontainers assumptions, and future Docker stage are documented in [`docs/ci.md`](docs/ci.md).
+
 ## AI-Assisted Development Workflow
 
 Repository-local agent instructions live in `AGENTS.md`. Agents and contributors should use the Maven Wrapper and the repository scripts instead of ad hoc commands:

@@ -16,20 +16,20 @@
 ## Testcontainers
 
 - [x] Ensure CI environment supports Docker for Testcontainers.
-- [ ] Document Testcontainers requirements.
+- [x] Document Testcontainers requirements.
 - [x] Separate unit and integration test phases if needed.
 
 ## Future Docker Build
 
 - [x] Reserve stage for Docker image build.
-- [ ] Document future container registry requirements.
+- [x] Document future container registry requirements.
 - [x] Keep Docker publishing disabled until deployment strategy is defined.
 
 ## Documentation
 
-- [ ] Document CI stages.
-- [ ] Document how to run the same checks locally.
-- [ ] Document required environment assumptions.
+- [x] Document CI stages.
+- [x] Document how to run the same checks locally.
+- [x] Document required environment assumptions.
 
 ## Validation
 
