@@ -2,7 +2,19 @@
 
 [![Backend CI](https://github.com/nicodemossjunior/commerceops-admin/actions/workflows/ci.yml/badge.svg)](https://github.com/nicodemossjunior/commerceops-admin/actions/workflows/ci.yml)
 
-CommerceOps Admin is a production-minded Spring Boot backend for administrative e-commerce operations. It combines catalog, customer, order, coupon, dashboard, and audit capabilities in a modular monolith secured with JWT and role-based authorization.
+**Production-ready e-commerce administration backend built to demonstrate enterprise-grade Spring Boot architecture, security, observability, testing, CI/CD, and maintainable domain design.**
+
+> **Business scope:** catalog, customers, orders, coupons, dashboards, audit logs, role-based access, and operational monitoring.
+
+CommerceOps Admin provides the operational foundation behind an e-commerce back office. It brings the workflows that operations, support, catalog, and management teams depend on into one secure and auditable API.
+
+## Business Value
+
+- **Centralized operations:** one coherent backend for managing products, customers, order lifecycles, promotions, and business indicators.
+- **Controlled access:** role-based permissions separate administrative, management, support, catalog, and read-only responsibilities.
+- **Operational accountability:** immutable audit records and correlated logs make sensitive actions traceable.
+- **Lower delivery risk:** automated tests, database migrations, API contracts, static analysis, and CI provide confidence as the product evolves.
+- **Built for extension:** modular domain boundaries support future storefront integrations, administrative interfaces, and additional operational workflows.
 
 The project was built with Specification Driven Development. All planned specifications from foundation through CI are implemented and traceable under [`specs/`](specs/).
 
