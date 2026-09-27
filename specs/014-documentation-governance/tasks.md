@@ -9,18 +9,18 @@
 
 ## Documentation Checker
 
-- [ ] Add an offline, dependency-free documentation validation script.
-- [ ] Validate relative Markdown file and directory links.
-- [ ] Validate specification index coverage and task-derived status.
-- [ ] Validate `.env.example` variables against the root README.
-- [ ] Validate the completed-spec range reported by the root README.
-- [ ] Report all detected inconsistencies with actionable messages.
+- [x] Add an offline, dependency-free documentation validation script.
+- [x] Validate relative Markdown file and directory links.
+- [x] Validate specification index coverage and task-derived status.
+- [x] Validate `.env.example` variables against the root README.
+- [x] Validate the completed-spec range reported by the root README.
+- [x] Report all detected inconsistencies with actionable messages.
 
 ## Automated Tests
 
-- [ ] Add isolated success and failure tests for the documentation checker.
-- [ ] Cover broken links, missing spec entries, incorrect spec status, undocumented variables, and stale spec ranges.
-- [ ] Ensure tests do not mutate the working tree or require network access.
+- [x] Add isolated success and failure tests for the documentation checker.
+- [x] Cover broken links, missing spec entries, incorrect spec status, undocumented variables, and stale spec ranges.
+- [x] Ensure tests do not mutate the working tree or require network access.
 
 ## Hooks and CI
 
@@ -32,13 +32,13 @@
 ## Documentation
 
 - [ ] Add a documentation governance guide and responsibility matrix.
-- [ ] Correct the stale specification range in the root README.
+- [x] Correct the stale specification range in the root README.
 - [ ] Document the validation command, hook behavior, CI enforcement, and semantic-review limitation.
 - [ ] Update the CI guide and root README with the new validation stage.
 
 ## Validation
 
-- [ ] Run the documentation checker tests.
+- [x] Run the documentation checker tests.
 - [ ] Run `./scripts/spec-status.sh` and `./scripts/check-specs.sh`.
 - [ ] Run `./scripts/validate.sh`.
 - [ ] Run `./scripts/ci.sh`.

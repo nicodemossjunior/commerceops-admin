@@ -305,7 +305,7 @@ See [`docs/observability.md`](docs/observability.md) for fields, metrics, securi
 
 ## Specification Driven Development
 
-The specification index in [`specs/README.md`](specs/README.md) records the purpose and completion status of every increment. Each spec contains acceptance criteria and an auditable task checklist. All specifications `000` through `011` are complete.
+The specification index in [`specs/README.md`](specs/README.md) records the purpose and completion status of every increment. Each spec contains acceptance criteria and an auditable task checklist. All specifications `000` through `013` are complete.
 
 Repository automation:
 
