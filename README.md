@@ -338,3 +338,7 @@ git config core.hooksPath .githooks
 ## Demo scenarios
 
 See [Persistent demo scenarios](docs/demo-scenarios.md) for an isolated PostgreSQL dataset, repeatable load/reset commands, and Swagger exploration examples.
+
+## Automated API journeys
+
+See [Automated API journeys](docs/api-journeys.md) for real HTTP/JWT tests against ephemeral PostgreSQL, the coverage matrix, and local execution. Run `./mvnw verify` with Docker available to include integration tests; `./scripts/validate.sh` runs the fast suite only.

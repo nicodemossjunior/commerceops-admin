@@ -73,3 +73,7 @@ Before enabling that job, the repository must provide a reviewed `Dockerfile`. P
 - Retention and deployment environments.
 
 Registry login and push steps must remain absent until the deployment strategy and secret ownership are defined.
+
+## PostgreSQL journey tests
+
+The integration stage now executes the demo infrastructure tests and the real HTTP/JWT journey suite. Docker is required. See [Automated API journeys](api-journeys.md) for the operation/filter/permission matrix, isolated fixture strategy, individual journey commands, and report locations. CI uploads Surefire and Failsafe reports on successful and failed runs.

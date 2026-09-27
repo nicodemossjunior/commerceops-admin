@@ -21,7 +21,7 @@ The project must be developed in English across code, API contracts, validation 
 | 010 | [API Documentation](010-api-documentation/spec.md) | completed | OpenAPI documentation, API examples, error documentation, and endpoint discoverability. |
 | 011 | [CI Pipeline](011-ci-pipeline/spec.md) | completed | Build, test, integration test, static analysis, and future Docker image steps. |
 | 012 | [Persistent Demo Scenarios](012-demo-scenarios/spec.md) | completed | Repeatable local PostgreSQL data for exploring filters, order operations, and dashboard metrics. |
-| 013 | [Automated API Journeys](013-api-journey-tests/spec.md) | planned | Real HTTP and JWT journeys against isolated PostgreSQL covering registrations, operations, filters, audit, and dashboard results. |
+| 013 | [Automated API Journeys](013-api-journey-tests/spec.md) | completed | Real HTTP and JWT journeys against isolated PostgreSQL covering registrations, operations, filters, audit, and dashboard results. |
 
 ## Global Decisions
 

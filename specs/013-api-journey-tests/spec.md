@@ -2,7 +2,7 @@
 
 ---
 id: 013
-status: planned
+status: completed
 depends_on: [012, 011]
 last_updated: 2026-09-26
 ---
