@@ -38,7 +38,7 @@ public class OpenApiConfig {
                         .bearerFormat("JWT")
                         .description("JWT access token returned by POST /api/auth/login."));
 
-        ModelConverters.getInstance().read(ApiErrorResponse.class).forEach(components::addSchemas);
+        ModelConverters.getInstance().readAll(ApiErrorResponse.class).forEach(components::addSchemas);
         standardErrors().forEach((name, definition) -> components.addResponses(
                 name,
                 errorResponse(definition.status(), definition.description(), definition.code(), definition.message())

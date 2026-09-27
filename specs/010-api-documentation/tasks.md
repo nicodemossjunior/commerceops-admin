@@ -6,6 +6,7 @@
 - [x] Configure API title, description, and version.
 - [x] Configure JWT Bearer security scheme.
 - [x] Configure global error schema.
+- [x] Register nested error schemas, including FieldErrorResponse.
 - [x] Configure pagination schema or examples.
 - [x] Add endpoint tags by domain.
 
@@ -28,6 +29,7 @@
 - [x] Verify Swagger UI loads in local profile.
 - [x] Verify JWT security scheme appears in OpenAPI.
 - [x] Verify standard error schema appears in OpenAPI.
+- [x] Verify every local reference in the generated OpenAPI document resolves.
 
 ## Validation
 

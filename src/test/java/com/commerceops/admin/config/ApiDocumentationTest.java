@@ -88,6 +88,30 @@ class ApiDocumentationTest {
     }
 
     @Test
+    void resolvesEveryLocalReferenceInGeneratedDocument() throws Exception {
+        String document = mockMvc.perform(get("/v3/api-docs"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        JsonNode root = objectMapper.readTree(document);
+
+        assertThat(root.at("/components/schemas/ApiErrorResponse/properties/fieldErrors/items/$ref").asText())
+                .isEqualTo("#/components/schemas/FieldErrorResponse");
+        assertLocalReferencesResolve(root, root);
+    }
+
+    private void assertLocalReferencesResolve(JsonNode root, JsonNode node) {
+        if (node.isObject() && node.has("$ref")) {
+            String reference = node.path("$ref").asText();
+            if (reference.startsWith("#/")) {
+                assertThat(root.at(reference.substring(1)).isMissingNode())
+                        .as("OpenAPI reference %s must resolve", reference)
+                        .isFalse();
+            }
+        }
+        node.forEach(child -> assertLocalReferencesResolve(root, child));
+    }
+
+    @Test
     void keepsEveryBusinessOperationDiscoverableAndFreeOfInternalIds() throws Exception {
         String document = mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk())
