@@ -22,6 +22,7 @@ The project must be developed in English across code, API contracts, validation 
 | 011 | [CI Pipeline](011-ci-pipeline/spec.md) | completed | Build, test, integration test, static analysis, and future Docker image steps. |
 | 012 | [Persistent Demo Scenarios](012-demo-scenarios/spec.md) | completed | Repeatable local PostgreSQL data for exploring filters, order operations, and dashboard metrics. |
 | 013 | [Automated API Journeys](013-api-journey-tests/spec.md) | completed | Real HTTP and JWT journeys against isolated PostgreSQL covering registrations, operations, filters, audit, and dashboard results. |
+| 014 | [Documentation Governance](014-documentation-governance/spec.md) | planned | Automated documentation consistency checks, change-impact review, and enforcement through local hooks and CI. |
 
 ## Global Decisions
 
