@@ -1,0 +1,18 @@
+services:
+  demo-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: commerceops_demo
+      POSTGRES_USER: ${DEMO_DB_USERNAME:-commerceops_demo}
+      POSTGRES_PASSWORD: ${DEMO_DB_PASSWORD:?Set DEMO_DB_PASSWORD}
+    ports:
+      - "127.0.0.1:${DEMO_DB_PORT:-5433}:5432"
+    volumes:
+      - demo_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d commerceops_demo"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+volumes:
+  demo_postgres_data:

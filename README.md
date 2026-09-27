@@ -334,3 +334,7 @@ git config core.hooksPath .githooks
 - Orders can be queried and operationally managed, but order creation and checkout belong to a separate commerce-facing system.
 - Administrator self-registration and production identity provisioning are intentionally out of scope.
 - OpenTelemetry export, Docker image publication, deployment, alerting, and external dashboards are prepared for future work but are not enabled.
+
+## Demo scenarios
+
+See [Persistent demo scenarios](docs/demo-scenarios.md) for an isolated PostgreSQL dataset, repeatable load/reset commands, and Swagger exploration examples.

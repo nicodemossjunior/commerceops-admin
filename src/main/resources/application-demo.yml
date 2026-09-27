@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:${DEMO_DB_PORT:5433}/commerceops_demo
+    username: ${DEMO_DB_USERNAME:commerceops_demo}
+    password: ${DEMO_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+springdoc:
+  swagger-ui:
+    enabled: true
