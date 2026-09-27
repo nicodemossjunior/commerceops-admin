@@ -2,3 +2,4 @@
 set -euo pipefail
 
 ./scripts/check-specs.sh
+./scripts/check-docs.sh

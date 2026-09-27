@@ -266,6 +266,13 @@ Run specification validation and the complete test suite:
 ./scripts/validate.sh
 ```
 
+Validate documentation consistency independently:
+
+```bash
+./scripts/test-check-docs.sh
+./scripts/check-docs.sh
+```
+
 Run the same compile, test, package, and static-analysis sequence used by CI:
 
 ```bash
@@ -278,11 +285,11 @@ Run Checkstyle independently:
 ./mvnw checkstyle:check
 ```
 
-The tests cover application startup, Flyway migrations, repositories, business services, controllers, authorization, OpenAPI generation, audit recording, observability, and error contracts. Tests use the isolated `test` profile; future `*IT.java` tests are reserved for PostgreSQL Testcontainers through Maven Failsafe.
+The tests cover application startup, Flyway migrations, repositories, business services, controllers, authorization, OpenAPI generation, audit recording, observability, error contracts, and real HTTP/JWT journeys. Fast tests use the isolated `test` profile; `*IT.java` journeys use PostgreSQL Testcontainers through Maven Failsafe.
 
 ## Continuous Integration
 
-The [`Backend CI`](.github/workflows/ci.yml) workflow runs for pull requests and pushes to `main`. It compiles the project, runs tests, verifies Docker availability, packages the executable JAR, runs Checkstyle, and uploads the JAR as a short-lived artifact.
+The [`Backend CI`](.github/workflows/ci.yml) workflow runs for pull requests and pushes to `main`. It validates specifications and documentation, compiles the project, runs tests, verifies Docker availability, packages the executable JAR, runs Checkstyle, and uploads reports and the JAR as short-lived artifacts.
 
 No application or infrastructure secrets are required for normal CI validation. Docker image publishing and deployment are intentionally disabled. See [`docs/ci.md`](docs/ci.md) for the complete pipeline contract.
 
@@ -305,16 +312,17 @@ See [`docs/observability.md`](docs/observability.md) for fields, metrics, securi
 
 ## Specification Driven Development
 
-The specification index in [`specs/README.md`](specs/README.md) records the purpose and completion status of every increment. Each spec contains acceptance criteria and an auditable task checklist. All specifications `000` through `013` are complete.
+The specification index in [`specs/README.md`](specs/README.md) records the purpose and completion status of every increment. Each spec contains acceptance criteria and an auditable task checklist. All specifications `000` through `014` are complete.
 
 Repository automation:
 
 ```bash
 ./scripts/spec-status.sh
 ./scripts/check-specs.sh
+./scripts/check-docs.sh
 ```
 
-Optional versioned Git hooks enforce spec structure, Conventional Commits, and pre-push validation:
+Optional versioned Git hooks enforce spec and documentation consistency, Conventional Commits, and pre-push validation:
 
 ```bash
 git config core.hooksPath .githooks
@@ -325,6 +333,7 @@ git config core.hooksPath .githooks
 - [API contract and authorization](docs/api.md)
 - [Observability](docs/observability.md)
 - [Continuous integration](docs/ci.md)
+- [Documentation governance](docs/documentation-governance.md)
 - [Specification index](specs/README.md)
 - [Agent workflow](AGENTS.md)
 

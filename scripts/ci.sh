@@ -13,6 +13,8 @@ run_stage() {
 }
 
 run_stage "Validate specification structure" ./scripts/check-specs.sh
+run_stage "Test documentation validation" ./scripts/test-check-docs.sh
+run_stage "Validate documentation consistency" ./scripts/check-docs.sh
 run_stage "Compile application and test sources" \
   ./mvnw --batch-mode --no-transfer-progress clean test-compile -DskipTests
 run_stage "Run unit tests" \

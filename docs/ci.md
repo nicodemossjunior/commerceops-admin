@@ -7,14 +7,15 @@ CommerceOps Admin uses GitHub Actions to validate every pull request and every p
 The `validate` job runs these stages in order:
 
 1. Check out the repository.
-2. Install Temurin Java 21 and restore the Maven dependency cache.
-3. Compile application and test sources.
-4. Run unit tests with Maven Surefire.
-5. Confirm that Docker is available for Testcontainers.
-6. Run integration tests with Maven Failsafe.
-7. Build the executable JAR without rerunning tests.
-8. Run Checkstyle static analysis.
-9. Upload the JAR as a workflow artifact for seven days.
+2. Validate specification structure and documentation consistency, including checker tests.
+3. Install Temurin Java 21 and restore the Maven dependency cache.
+4. Compile application and test sources.
+5. Run unit tests with Maven Surefire.
+6. Confirm that Docker is available for Testcontainers.
+7. Run integration tests with Maven Failsafe.
+8. Build the executable JAR without rerunning tests.
+9. Run Checkstyle static analysis.
+10. Upload test reports and the JAR as workflow artifacts for seven days.
 
 The Maven cache key is derived from `pom.xml`. A compilation error, test failure, integration-test failure, missing artifact, or Checkstyle violation fails the job.
 
@@ -30,6 +31,8 @@ The individual commands are:
 
 ```bash
 ./scripts/check-specs.sh
+./scripts/test-check-docs.sh
+./scripts/check-docs.sh
 ./mvnw --batch-mode --no-transfer-progress clean test-compile -DskipTests
 ./mvnw --batch-mode --no-transfer-progress -Dskip.integration.tests=true test
 ./mvnw --batch-mode --no-transfer-progress -Dskip.unit.tests=true verify
@@ -43,7 +46,7 @@ The generated application artifact is `target/commerceops-admin-0.0.1-SNAPSHOT.j
 
 Unit and application-context tests use the `*Test.java` naming convention and run through Maven Surefire. Integration tests use `*IT.java` and run through Maven Failsafe during `verify`.
 
-There are currently no `*IT.java` tests. The integration phase still runs successfully and will automatically discover tests when they are added.
+The integration phase executes persistent demo infrastructure tests and real HTTP/JWT API journeys against PostgreSQL Testcontainers.
 
 Database integration tests should use Testcontainers with PostgreSQL instead of a shared database. They require:
 
@@ -59,6 +62,10 @@ GitHub-hosted Ubuntu runners provide Docker. The CI workflow executes `docker in
 Normal CI validation uses the test profile and its in-memory H2 database. It does not require `.env`, PostgreSQL credentials, JWT production secrets, cloud credentials, or registry credentials. The repository's test-only JWT value is not a production secret.
 
 The workflow has read-only repository-content permission and does not print environment variables. Secrets must not be added to Maven command lines or diagnostic output.
+
+## Documentation Enforcement
+
+Documentation checks run before Java setup so objective inconsistencies fail quickly. The same offline scripts run through local hooks, `./scripts/validate.sh`, and `./scripts/ci.sh`. See [Documentation governance](documentation-governance.md) for the automated guarantees, change responsibility matrix, pull request declaration, and semantic-review boundary.
 
 ## Future Docker Image Stage
 
