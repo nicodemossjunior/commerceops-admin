@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -87,6 +89,36 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.name").value("Ergonomic Mouse"))
                 .andExpect(jsonPath("$.stockQuantity").value(9))
                 .andExpect(jsonPath("$.status").value("INACTIVE"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"trailing-comma", "invalid-status", "missing-body"})
+    @WithMockUser(roles = "ADMIN")
+    void rejectsUnreadableUpdateBody(String scenario) throws Exception {
+        Product product = saveProduct("SKU-001", "Wireless Mouse", ProductStatus.ACTIVE);
+        String body = productJson("sku-002", "Updated Mouse", "updated-mouse", "90.99", 15, "ACTIVE");
+        body = switch (scenario) {
+            case "trailing-comma" -> body.replace("\"ACTIVE\"", "\"ACTIVE\",");
+            case "invalid-status" -> body.replace("ACTIVE", "UNKNOWN");
+            default -> "";
+        };
+
+        mockMvc.perform(put("/api/products/{publicId}", product.getPublicId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"))
+                .andExpect(jsonPath("$.message").value("Request body is missing or contains invalid JSON or field values."))
+                .andExpect(jsonPath("$.path").value("/api/products/" + product.getPublicId()))
+                .andExpect(jsonPath("$.traceId").isNotEmpty())
+                .andExpect(jsonPath("$.fieldErrors").isEmpty());
+
+        mockMvc.perform(get("/api/products/{publicId}", product.getPublicId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.sku").value("SKU-001"))
+                .andExpect(jsonPath("$.name").value("Wireless Mouse"));
     }
 
     @Test

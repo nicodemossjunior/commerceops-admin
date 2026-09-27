@@ -150,7 +150,7 @@ sort
 
 ## Expected Errors
 
-- `VALIDATION_ERROR` for invalid payloads.
+- `VALIDATION_ERROR` with HTTP 400 for invalid payloads, including malformed JSON, missing request bodies, and unreadable field values.
 - `RESOURCE_NOT_FOUND` when category or product does not exist.
 - `DUPLICATE_RESOURCE` for duplicate SKU or slug.
 - `BUSINESS_RULE_VIOLATION` when a category cannot be deleted due to active products.

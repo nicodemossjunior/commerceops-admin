@@ -56,6 +56,8 @@ The implementation is divided into waves so that every intermediate state is rev
 - [x] Add validation for price and stock quantity.
 - [x] Test product creation.
 - [x] Test product update.
+- [x] Return HTTP 400 with the standard validation error response for unreadable request bodies.
+- [x] Test product updates with trailing JSON commas, unsupported status values, and missing bodies; verify the product remains unchanged.
 - [x] Test duplicate SKU rejection.
 
 ## Wave 5 — Product Filtering And Soft Delete
